@@ -1,0 +1,30 @@
+.Home {
+    .example2 {
+        height: 50px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .example2 h3 {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        line-height: 50px;
+        animation: example2 15s linear infinite;
+        /* Apply the animation */
+    }
+
+    /* Define the animation */
+    @keyframes example2 {
+        from {
+            margin-left: -100%;
+            width: 300%;
+        }
+
+        to {
+            margin-left: 100%;
+            width: 100%;
+        }
+    }
+}

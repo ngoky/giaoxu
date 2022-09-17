@@ -1,11 +1,9 @@
 import React from "react"
 
-import { Box, Menu, Typography } from "@mui/material"
+import { Box, colors, Container, Menu, MenuItem, Toolbar, Typography } from "@mui/material"
+// import MenuIcon from '@mui/icons-material/Menu';
 
 const pages = [{
-  text: 'Giáo xứ vinh an',
-  to: '/'
-},{
   text: 'Tin tức',
   to: '/news'
 },{
@@ -13,41 +11,102 @@ const pages = [{
   to: '/contact'
 },]
 
-const RenderMenu = () => {
-    return (
-        pages.map((x) => (
-        //   <MenuItem key={x.text} component="div">
-          <Typography key={x.text} textAlign="center" href={x.to}>{x.text}</Typography>
-        //   </MenuItem>
-      )))
-}
+const MyMenu = () => {
+    const [anchorElNav, setAnchorElNav] = React.useState(null)
+    // const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
 
-const MyMenu = (open) => {
-    const [anchorElNav] = React.useState(null)
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
   return (
-    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-      <Menu
-        id="menu-app-bar"
-        anchorEl={anchorElNav}
-        anchorOrigin={{
+    <Container maxWidth='xl'>
+      <Toolbar disableGutters>
+        <Typography
+          variant="h7"
+          noWrap
+          color="inherit"
+          component="a"
+          href="/"
+          sx={{
+              mr: 2,
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
+              fontWeight: 400,
+              // letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+        >
+          Giáo Xứ Vinh An
+        </Typography>
+
+        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorElNav}
+            anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',
               }}
-        keepMounted
-        transformOrigin={{
+            keepMounted
+            transformOrigin={{
                 vertical: 'top',
                 horizontal: 'left',
               }}
-        open={Boolean(open)}
-      // onClose={handleCloseNavMenu}
-        sx={{
+            open={Boolean(anchorElNav)}
+            onClose={handleCloseNavMenu}
+            sx={{
                 display: { xs: 'block', md: 'none' },
-        }}
-      >
-        <RenderMenu />
-      </Menu>
-      <RenderMenu />
-    </Box>
+              }}
+          >
+            {pages.map((page, i) => (
+              <MenuItem key={`${page.to + i}`} sx={{hover: { backgroundColor: colors.blueGrey }}}>
+                <Typography textAlign="center" component='a' href={page.to}>{page.text}</Typography>
+              </MenuItem>
+              ))}
+          </Menu>
+        </Box>
+        <Typography
+          variant="h5"
+          noWrap
+          // component="a"
+          aria-controls="menu-appbar"
+          aria-haspopup="true"
+          onClick={handleOpenNavMenu}
+          // href=""
+          sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'none' },
+              flexGrow: 1,
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+        >
+          Giáo Xứ Vinh An
+        </Typography>
+        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          {pages.map((page, i) => (
+            <MenuItem key={`${page.to + i}`} sx={{hover: { backgroundColor: colors.blueGrey }}}>
+              <Typography textAlign="center" component='a' href={page.to}>{page.text}</Typography>
+            </MenuItem>
+            // <Button
+            //   key={page.to}
+            //   onClick={handleCloseNavMenu}
+            //   sx={{ my: 2, color: 'white', display: 'block' }}
+            // >
+            //   {page.text}
+            // </Button>
+            ))}
+        </Box>
+      </Toolbar>
+    </Container>
   )
 }
 

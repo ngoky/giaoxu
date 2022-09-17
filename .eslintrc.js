@@ -11,6 +11,7 @@ module.exports = {
   extends: ['airbnb', 'prettier', 'plugin:compat/recommended', "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",],
+  "plugins": ["eslint-plugin-import"],
   env: {
     browser: true,
     node: true,
@@ -59,8 +60,8 @@ module.exports = {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
       alias: [
-        ["@/components", "./src/components/*"],
-        ["@/pages", "./src/pages/*"]
+        ["@/components/*", "./src/components/index"],
+        ["@/pages", "./src/pages/index"]
       ]
     },
   },

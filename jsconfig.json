@@ -1,41 +1,18 @@
 {
     "compilerOptions": {
-        "outDir": "./built",        
-        "sourceMap": true,
-        "baseUrl": "src",
+        "baseUrl": "./src",
         "jsx": "react",
-        "allowSyntheticDefaultImports": true,
-        "moduleResolution": "node",
-        "rootDirs": [
-            "/src",
-            "/test",
-            "/mock",
-            "./typings"
-        ],
-        "forceConsistentCasingInFileNames": true,
-        "noImplicitReturns": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "noUnusedLocals": true,
         "allowJs": true,
-        "experimentalDecorators": true,
         "paths": {
-            "@/*": [
-                "./src/*"
+            "@/components/*": [
+                "components/*"
+            ],           
+            "@/pages/*": [
+                "page/*"
             ]
         }
     },
     "include": [
         "./src"
-    ],
-    "exclude": [
-        "node_modules",
-        "build",
-        "scripts",
-        "acceptance-tests",
-        "webpack",
-        "jest",
-        "src/setupTests.ts",
-        "tslint:latest",
-        "tslint-config-prettier"
     ]
 }

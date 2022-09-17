@@ -1,14 +1,16 @@
+import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const Body = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open, width }) => ({
+const Display = styled(Box, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    flexDirection: 'row',
     flexGrow: 1,
-    padding: theme.spacing(3),
+    // padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: `-${width}px`,
+    marginLeft: 0,
     ...(open && {
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.easeOut,
@@ -18,11 +20,5 @@ const Body = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     }),
   }),
 );
-// const Main = ({open, width}) => {
-//   const theme = useTheme()
-//   return(
-//     <MainStyle theme={theme} open={open} width={width} />
-//   )
-// }
 
-export default Body
+export default Display
