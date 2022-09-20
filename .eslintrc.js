@@ -8,10 +8,14 @@ module.exports = {
       "presets": ["@babel/preset-react"]
     }
   },
-  extends: ['airbnb', 'prettier', 'plugin:compat/recommended', "plugin:import/errors",
+  extends: [
+    'airbnb',
+    'prettier',
+    // 'plugin:compat/recommended',
+    "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",],
-  "plugins": ["eslint-plugin-import"],
+    "plugins": ["eslint-plugin-import"],
   env: {
     browser: true,
     node: true,
