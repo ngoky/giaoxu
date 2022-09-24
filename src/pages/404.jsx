@@ -1,18 +1,33 @@
-import { Button, Result } from 'antd';
-import React from 'react';
-import { history, formatMessage } from 'umi';
+import { Box, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
+import { useHistory } from "react-router-dom";
 
-const NoFoundPage = () => (
-  <Result
-    status="404"
-    title={formatMessage({ id: 'pages.404.title' })}
-    subTitle={formatMessage({ id: 'pages.404.subTitle' })}
-    extra={
-      <Button type="primary" onClick={() => history.push('/')}>
-        {formatMessage({ id: 'pages.404.backHome' })}
-      </Button>
-    }
-  />
-);
+import { purple } from '@mui/material/colors';
 
-export default NoFoundPage;
+const primary = purple[500]; 
+
+const NotFoundPage = () => {
+  const history = useHistory()
+  useEffect(() => {
+    setTimeout(() => {
+      history.back()
+    }, 2000)
+  }, [])
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        backgroundColor: primary,
+      }}
+    >
+      <Typography variant="h1" style={{ color: 'white' }}>
+        404
+      </Typography>
+    </Box>
+  )
+}
+
+export default NotFoundPage;
