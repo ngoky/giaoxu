@@ -43,4 +43,8 @@ const newByType = () => {
   return posts;
 };
 
-export default { fetchTop, newByType };
+const newDetail = () => {
+  return { ...images, type: { id: 12, name: "Type of days" } };
+};
+
+export default { fetchTop, newByType, newDetail };
