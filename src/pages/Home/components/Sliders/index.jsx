@@ -6,9 +6,11 @@ import React, { useEffect, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import PostService from "../../../../local-storage/posts/post.service";
-import DEF from "./default.slide";
+import DEF from "../default.slide";
 import LeftView from "./left.view";
 import RightView from "./right.view";
+
+// const slider = useRef()
 
 const Layout = styled(Grid, { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme }) => ({
@@ -29,20 +31,16 @@ const settings = {
   slidesToShow: 1,
   slidesToScroll: 1,
   // autoplay: true,
-  // autoplaySpeed: 2000000,
+  // autoplaySpeed: 20000,
   slickNext: true,
   slickPrevious: true,
   swipe: true
 };
 const sliderHeight = 300
 const Slider = () => {
-  // const theme = useTheme()
   const [topPost = [], setTopPost] = useState();
-  // const [post = null] = useState(null)
   const [index, setIndex] = useState(0);
   const beforeChange = (_, newIndex) => {
-    // index = newIndex
-    // console.log(newIndex, new Date())
     setIndex(newIndex);
   };
 
@@ -78,8 +76,9 @@ const Slider = () => {
               speed={1000}
               slidesToShow={1}
               slidesToScroll={1}
+              initialSlide={index}
               // autoplay
-              // autoplaySpeed={20000}
+              // autoplaySpeed={2000}
               slickNext
               slickPrevious
               swipe
@@ -92,7 +91,7 @@ const Slider = () => {
                     alt={element.label}
                     style={{
                       borderRadius: "15px",
-                      maxHeight: {sliderHeight},
+                      maxHeight: `${sliderHeight}px`,
                       display: "block",
                       overflow: "hidden",
                       width: "100%"
@@ -109,7 +108,7 @@ const Slider = () => {
             xl={3}
             sx={{ display: { xs: "none", md: "flex" } }}
           >
-            <RightView posts={topPost} index={index} height={sliderHeight} />
+            <RightView posts={topPost} index={index} height={sliderHeight} style={{border: "solid 1px black"}} />
           </Grid>
         </Grid>
       </Box>

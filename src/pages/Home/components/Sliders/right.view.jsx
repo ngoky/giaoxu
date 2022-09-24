@@ -1,8 +1,8 @@
-import { styled, ListItem, ListItemButton, ListItemIcon, Container, Link } from "@mui/material";
+import { styled, ListItem, ListItemButton, ListItemIcon, Container, Link, Grid } from "@mui/material";
 import { FixedSizeList } from 'react-window'
 import { makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 
 const scrollableListRef = React.createRef();
 const itemHeight = 60
@@ -13,6 +13,7 @@ const Item = styled(Container, { shouldForwardProp: (prop) => prop !== 'open' })
     margin: 0,
     height: `${itemHeight}px`,
     maxHeight: `${itemHeight}px`,
+    padding: '0px',
     // padding: theme.spacing(3),
     boxSizing: 'border-box',
     transition: theme.transitions.create('margin', {
@@ -25,41 +26,52 @@ const Item = styled(Container, { shouldForwardProp: (prop) => prop !== 'open' })
 const placeSelectedItemInTheMiddle = index => {
     // const LIST_ITEM_HEIGHT = 60;
     const NUM_OF_VISIBLE_LIST_ITEMS = 5;
-    const amountToScroll = itemHeight  * (index - NUM_OF_VISIBLE_LIST_ITEMS / 2 + 1);
-    console.log('scroll to',amountToScroll, 'index: ', index)
+    const amountToScroll = itemHeight  * (index - NUM_OF_VISIBLE_LIST_ITEMS / 2 + 0.5);
+    // console.log('scroll to',amountToScroll, 'index: ', scrollableListRef.current)
     scrollableListRef.current.scrollTo(amountToScroll, 0);
 };
 const useStyles = makeStyles(() => ({
   test: {
     changes:
     {
-      width: "100%",
+      // width: "100%",
       height: 300,
       maxWidth: 500,
+      overflow: 'hidden',
+      padding: '0px',
+      margin: 0,
       // backgroundColor: theme.palette.background.paper
     }
 }
 }));
-const changeIndex = (index) => {
-  placeSelectedItemInTheMiddle(index)
-}
+// let currentIndex = 0
+
 const Row = (props) => {
   const { index, theme, data, style } = props
-  // console.log(index, data, props)
-  const text = data.length > 0 ? data[index]:{
+  const {posts, cIndex, handleChange} = data
+  const selected = index === cIndex
+  // console.log('row',index, cIndex)
+  const text = posts.length > 0 ? posts[index]:{
     photo: 'haiz',
     title: 'nan'
   }
+  const changeIndex = (event) => {
+  // currentIndex = index
+    placeSelectedItemInTheMiddle(event)
+    handleChange(event)
+  }
   return (
-    <ListItem key={index} disablePadding onClick={() => changeIndex(index)} style={style}>
-      <ListItemButton style={{ width: '100%', "maxHeight": "60px" }}>
+    <ListItem key={index} disablePadding onClick={() => changeIndex(index)} style={style} selected={selected} title={text.title}>
+      <ListItemButton style={{ "maxHeight": "60px", margin:0, padding:0 }}>
         <ListItemIcon style={{ "maxHeight": "60px" }}>
           <img src={text.photo} alt={text.photo} height={50} width={50} />
         </ListItemIcon>
-        <Item theme={theme} height={50}>
+        <Item theme={theme} height={50} style={{paddingLeft: 2}}>
           <div style={{whiteSpace: 'nowrap', textOverflow: 'ellipsis', width: '100%', overflow: 'hidden'}}>{text.title}</div>
           {/* <div>{text.title}</div> */}
-          <Link text='Read more' />
+          <Grid container justifyContent="flex-end">
+            <Link href={`news/${index}`} text='Read more'>Read more</Link>
+          </Grid>
         </Item>
       </ListItemButton>
     </ListItem>
@@ -68,27 +80,32 @@ const Row = (props) => {
 
 Row.propTypes = {
   index: PropTypes.number.isRequired,
-  // style: PropTypes.object.isRequired
+  style: PropTypes.object.isRequired,
+  // currentIndex: PropTypes.number.isRequired,
 };
 
 const RightView = (props) => {
   const { posts, height, index = 0 } = props
   const classes = useStyles();
-  // console.log('test obj', posts.length)
-
+  const[currentIndex = index, setCurrentIndex] = useState(0)  
   useEffect(() => {
-    placeSelectedItemInTheMiddle(index)
+    setCurrentIndex(index)
+    placeSelectedItemInTheMiddle(currentIndex)    
   })
-  // const post = posts.length > 0 ? posts[currentIndex] : null
+  const changeIndex = newIndex => {
+    setCurrentIndex(newIndex)
+  }
+  
   return (
     posts.length > 0 &&
       <FixedSizeList
-        className={classes.test.changes}
+        className={classes.test.changes}   
         ref={scrollableListRef}
         height={height}
-        style={{border:"solid 1px red"}}
+        width={360}        
+        style={{overflow:'hidden', marginLeft: `30px`, padding:0}}
         itemSize={itemHeight}
-        itemData={posts}
+        itemData={{posts,cIndex:currentIndex, handleChange: changeIndex}}
         itemCount={posts.length}
       >
         {Row}

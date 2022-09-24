@@ -21,6 +21,10 @@ const fetchTop = () => {
   return posts;
 };
 
+const random = ({ min = 1, max = 5 }) => { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 const newByType = () => {
   const posts = [];
   for (let i = 0; i < 10; i += 1) {
@@ -29,15 +33,18 @@ const newByType = () => {
       id: i,
       name: `Type of news ${index}`
     };
+    const newsNum = random({})
+    const postsByType = []
+    for (let j = 0; j < newsNum; j += 1) {
+      postsByType.push({
+        ...images,
+        title: `${j} New by type to in to specific view ${index}`,
+        id: index
+      })
+    }
     posts.push({
       ...type,
-      posts: [
-        {
-          ...images,
-          title: `${index} New by type to in to specific view ${index}`,
-          id: index
-        }
-      ]
+      posts: [...postsByType]
     });
   }
   return posts;
