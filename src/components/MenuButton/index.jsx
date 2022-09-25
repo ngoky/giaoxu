@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const Display = styled(Box, { shouldForwardProp: (prop) => prop !== 'open' })(
+const MenuLayout = styled(Box, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open, width }) => ({
     flexDirection: 'row',
     flexGrow: 1,
@@ -10,15 +10,15 @@ const Display = styled(Box, { shouldForwardProp: (prop) => prop !== 'open' })(
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: `-${width}px`,
+    marginLeft: 0,
     ...(open && {
       transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
-      marginLeft: 0,
+      marginLeft: `${width}px`,
     }),
   }),
 );
 
-export default Display
+export default MenuLayout
