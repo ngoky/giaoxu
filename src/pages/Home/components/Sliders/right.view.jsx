@@ -1,8 +1,9 @@
 import { styled, ListItem, ListItemButton, ListItemIcon, Container, Link, Grid } from "@mui/material";
 import { FixedSizeList } from 'react-window'
-import { makeStyles } from "@mui/styles";
+// import { makeStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react"
+import './right.view.less'
 
 const scrollableListRef = React.createRef();
 const itemHeight = 60
@@ -30,20 +31,20 @@ const placeSelectedItemInTheMiddle = index => {
     // console.log('scroll to',amountToScroll, 'index: ', scrollableListRef.current)
     scrollableListRef.current.scrollTo(amountToScroll, 0);
 };
-const useStyles = makeStyles(() => ({
-  test: {
-    changes:
-    {
-      // width: "100%",
-      height: 300,
-      maxWidth: 500,
-      overflow: 'hidden',
-      padding: '0px',
-      margin: 0,
-      // backgroundColor: theme.palette.background.paper
-    }
-}
-}));
+// const useStyles = makeStyles(() => ({
+//   test: {
+//     changes:
+//     {
+//       // width: "100%",
+//       height: 300,
+//       maxWidth: 500,
+//       scrollbars: 'none',
+//       padding: '0px',
+//       margin: 0,
+//       // backgroundColor: theme.palette.background.paper
+//     }
+// }
+// }));
 // let currentIndex = 0
 
 const Row = (props) => {
@@ -86,7 +87,7 @@ Row.propTypes = {
 
 const RightView = (props) => {
   const { posts, height, index = 0 } = props
-  const classes = useStyles();
+  // const classes = useStyles();
   const[currentIndex = index, setCurrentIndex] = useState(0)  
   useEffect(() => {
     setCurrentIndex(index)
@@ -99,14 +100,17 @@ const RightView = (props) => {
   return (
     posts.length > 0 &&
       <FixedSizeList
-        className={classes.test.changes}   
+        scrollbarsWidth={0}
+        // className={classes.test.changes}   
         ref={scrollableListRef}
         height={height}
+        isScrolling={false}
         width={360}        
-        style={{overflow:'hidden', marginLeft: `30px`, padding:0}}
+        style={{ marginLeft: `30px`, padding:0, scrollbarsWidth: 'none'}}
         itemSize={itemHeight}
         itemData={{posts,cIndex:currentIndex, handleChange: changeIndex}}
         itemCount={posts.length}
+        useIsScrolling={false}
       >
         {Row}
       </FixedSizeList>

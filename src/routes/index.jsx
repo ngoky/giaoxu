@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import GuestRoutes from "./GuestRoutes";
 import AdminRoutes from "./AdminRoutes";
 
@@ -11,7 +11,17 @@ const Routers = () => {
         return (
           element.routers &&
           <Route key={`${element.path}`} exact={element.exact} path={element.path}>
-            {element.routers.map(((x) => (<Route key={`${element.path}${x.path}`} path={x.path} element={<x.component />} />)))}
+            {element.routers.map(((x) => 
+              (
+                <Route key={`${element.path}${x.path}`} exact={element.exact} path={x.path} element={<x.component />}>
+                  {
+                    x.children && x.children.map(sub => (
+                      <Route key={`${element.path}${sub.path}`} path={sub.path} element={<sub.component />} />
+                    ))
+                  }
+                </Route>
+              )
+            ))}
           </Route>
         )
       })}

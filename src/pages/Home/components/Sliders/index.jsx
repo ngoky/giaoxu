@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import PostService from "../../../../local-storage/posts/post.service";
-import DEF from "../default.slide";
+import DEF from "../news.data";
 import LeftView from "./left.view";
 import RightView from "./right.view";
 
@@ -30,8 +30,8 @@ const settings = {
   speed: 1000,
   slidesToShow: 1,
   slidesToScroll: 1,
-  // autoplay: true,
-  // autoplaySpeed: 20000,
+  autoplay: true,
+  autoplaySpeed: 2000,
   slickNext: true,
   slickPrevious: true,
   swipe: true
@@ -62,38 +62,40 @@ const Slider = () => {
           <Grid
             item
             xs={0}
+            sm={0}
             md={3}
             xl={3}
-            sx={{ display: { xs: "none", md: "flex" } }}
+            sx={{ display: { xs: "none", sm: 'none', md: "flex" } }}
           >
             <LeftView post={topPost[index]} index={index} height={sliderHeight} />
           </Grid>
-          <Layout item xs={12} md={6} xl={6}>
+          <Layout item xs={12} sm={8} md={6} xl={6}>
             <ReactSlick
               settings={settings}
               dots
               infinite
               speed={1000}
-              slidesToShow={1}
               slidesToScroll={1}
               initialSlide={index}
-              // autoplay
-              // autoplaySpeed={2000}
+              autoplay
+              autoplaySpeed={2000}
               slickNext
               slickPrevious
               swipe
               beforeChange={beforeChange}
             >
               {topPost.map((element) => (
-                <div key={element.label}>
+                <div key={element.label} style={{width:'100%'}}>
                   <img
                     src={element.photo}
                     alt={element.label}
                     style={{
                       borderRadius: "15px",
+                      height: `${sliderHeight}px`,
                       maxHeight: `${sliderHeight}px`,
                       display: "block",
                       overflow: "hidden",
+                      margin: 'auto',
                       width: "100%"
                     }}
                   />
@@ -104,9 +106,10 @@ const Slider = () => {
           <Grid
             item
             xs={0}
+            sm={4}
             md={3}
             xl={3}
-            sx={{ display: { xs: "none", md: "flex" } }}
+            sx={{ display: { xs:'none', sm:"flex", md: "flex" } }}
           >
             <RightView posts={topPost} index={index} height={sliderHeight} style={{border: "solid 1px black"}} />
           </Grid>

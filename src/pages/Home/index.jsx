@@ -1,9 +1,7 @@
 import { Box, CssBaseline, styled, useTheme } from "@mui/material"
 import React from "react"
 import style from './index.less'
-import Banner from "../../components/Banner"
 import Body from "../../components/Body"
-import Menu from '../../components/AppBar/components/AppBar'
 import LeftDrawer from "../../components/Drawable";
 import Display from "../../components/Display"
 import Slider from "./components/Sliders"
@@ -48,15 +46,13 @@ const Home = () => {
     <Box sx={{ display:'flex'}} className={style.Home}>
       <LeftDrawer open={open} handleDrawer={handleDrawer} width={drawerWidth} banner top={drawerTop} />
       <Display theme={theme} open={open} width={drawerWidth}>
-        <Banner theme={theme} open={open} width={drawerWidth}>
-          <img src="https://image.shutterstock.com/image-illustration/3d-illustration-conceptual-wood-cross-600w-679159084.jpg" alt="banner" width="100%" height="100px" />
-        </Banner>
+        
         <TextSlider theme={theme} open={open} width={drawerWidth} className={style.sample2} height={slideTextHeight}><h3>Test</h3></TextSlider>
         <Box sx={{display: 'flex'}}>
           <CssBaseline />     
           <Display theme={theme} open={open} width={drawerWidth}>            
             <CssBaseline />
-            <Menu theme={theme} handleDrawer={handleDrawer} check={open} width={drawerWidth} />            
+            {/* <Menu theme={theme} handleDrawer={handleDrawer} check={open} width={drawerWidth} />             */}
             <CssBaseline />
             <Body theme={theme} open={open} width={drawerWidth}>
               <Slider theme={theme} open={open} width={drawerWidth} />
@@ -67,7 +63,6 @@ const Home = () => {
       </Display>
     </Box>
   );
-  // return (old ? <PersistentDrawerLeft /> : <NewPersistentDrawerLeft />)
 }
 
 export default Home
