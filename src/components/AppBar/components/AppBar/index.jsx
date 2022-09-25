@@ -17,7 +17,7 @@ const AppBar = styled(MuiAppBar, {
     // width: "100%",
     width: `calc(100% + ${width}px)`,
     maxHeight:'60px',
-    marginLeft: `-${width}px`,
+    marginLeft: `0px`,
     ...(open && {
         width: `100%`,
         // marginLeft: `${drawerWidth}px`,
