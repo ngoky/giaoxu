@@ -1,16 +1,16 @@
 import { Box, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { purple } from '@mui/material/colors';
 
 const primary = purple[500]; 
 
 const NotFoundPage = () => {
-  const history = useHistory()
+  const history = useNavigate()
   useEffect(() => {
     setTimeout(() => {
-      history.back()
+      history(-1)
     }, 2000)
   }, [])
   return (
