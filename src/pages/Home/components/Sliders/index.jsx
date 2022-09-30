@@ -6,11 +6,9 @@ import React, { useEffect, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import PostService from "../../../../local-storage/posts/post.service";
-import DEF from "../news.data";
+import DEF from "../../../../utils/news.data";
 import LeftView from "./left.view";
 import RightView from "./right.view";
-
-// const slider = useRef()
 
 const Layout = styled(Grid, { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme }) => ({
