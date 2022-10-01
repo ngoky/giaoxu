@@ -1,19 +1,36 @@
-import React from "react"
+import React from "react";
 
-import { Box, colors, Container, Menu, MenuItem, Toolbar, Typography } from "@mui/material"
+import {
+  Box,
+  colors,
+  Container,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 
-const pages = [{
-  text: 'Tin tức',
-  to: '/news'
-},{
-  text: 'liên hệ',
-  to: '/contact'
-},]
+import "./index.less";
+
+const pages = [
+  {
+    text: "Giaó xứ vinh an",
+    to: "/",
+  },
+  {
+    text: "Tin tức",
+    to: "/news",
+  },
+  {
+    text: "liên hệ",
+    to: "/contact",
+  },
+];
 
 const MyMenu = () => {
-    const [anchorElNav, setAnchorElNav] = React.useState(null)
-    // const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const handleOpenNavMenu = (event) => {
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  // const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
 
@@ -22,51 +39,42 @@ const MyMenu = () => {
   };
 
   return (
-    <Container maxWidth='xl'>
+    <Container maxWidth="xl" className="MyMenu">
       <Toolbar disableGutters>
-        <Typography
-          variant="h7"
-          noWrap
-          color="inherit"
-          component="a"
-          href="/"
-          sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 400,
-              // letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-        >
-          Giáo Xứ Vinh An
-        </Typography>
-
-        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+        <Box sx={{ flexGrow: 1, display: { xs: "flex", sm: "none" } }}>
           <Menu
             id="menu-appbar"
             anchorEl={anchorElNav}
             anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
+              vertical: "bottom",
+              horizontal: "left",
+            }}
             keepMounted
             transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
+              vertical: "top",
+              horizontal: "left",
+            }}
             open={Boolean(anchorElNav)}
             onClose={handleCloseNavMenu}
             sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
+              display: { xs: "block", sm: "none" },
+            }}
           >
             {pages.map((page, i) => (
-              <MenuItem key={`${page.to + i}`} sx={{hover: { backgroundColor: colors.blueGrey }}}>
-                <Typography textAlign="center" component='a' href={page.to}>{page.text}</Typography>
+              <MenuItem
+                key={`${page.to + i}`}
+                sx={{ hover: { backgroundColor: colors.blueGrey } }}
+              >
+                <Typography
+                  className="item-text"
+                  textAlign="center"
+                  component="a"
+                  href={page.to}
+                >
+                  {page.text}
+                </Typography>
               </MenuItem>
-              ))}
+            ))}
           </Menu>
         </Box>
         <Typography
@@ -77,36 +85,36 @@ const MyMenu = () => {
           aria-haspopup="true"
           onClick={handleOpenNavMenu}
           // href=""
+          className="text"
           sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
+            mr: 2,
+            display: { xs: "flex", sm: "none" },
+            flexGrow: 1,
+          }}
         >
           Giáo Xứ Vinh An
         </Typography>
-        <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+        <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}>
           {pages.map((page, i) => (
-            <MenuItem key={`${page.to + i}`} sx={{hover: { backgroundColor: colors.blueGrey }}}>
-              <Typography textAlign="center" component='a' href={page.to}>{page.text}</Typography>
+            <MenuItem
+              className="menu-box"
+              key={`${page.to + i}`}
+              sx={{ hover: { backgroundColor: colors.blueGrey } }}
+            >
+              <Typography
+                textAlign="center"
+                className="item-text"
+                component="a"
+                href={page.to}
+              >
+                {page.text}
+              </Typography>
             </MenuItem>
-            // <Button
-            //   key={page.to}
-            //   onClick={handleCloseNavMenu}
-            //   sx={{ my: 2, color: 'white', display: 'block' }}
-            // >
-            //   {page.text}
-            // </Button>
-            ))}
+          ))}
         </Box>
       </Toolbar>
     </Container>
-  )
-}
+  );
+};
 
-export default MyMenu
+export default MyMenu;

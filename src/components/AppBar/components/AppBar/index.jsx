@@ -8,7 +8,6 @@ import {
 import MyMenu from "../Menu";
 import Account from "../Account";
 
-// const drawerWidth = 240
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open, width = 0 }) => ({

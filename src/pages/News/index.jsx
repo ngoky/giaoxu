@@ -10,8 +10,7 @@ import {
 import postService from "../../local-storage/posts/post.service";
 import Body from "../../components/Body";
 import DEF from "../../utils/news.data";
-import "./index.css";
-import "./test.less"
+import "./index.less";
 
 // const old = false
 const News = () => {
@@ -64,40 +63,48 @@ const News = () => {
                   background: "red",
                 }}
               >
-                <Box
-                  flexDirection="row"
-                  className="News"
-                  style={{
-                    width: "100%",
-                    background: "red",
-                    borderRadius: 8,
-                  }}
-                >
+                <Box flexDirection="row" className="new-info" style={{}}>
                   <Box>
-                    <Card
-                      className="title"
-                      style={{
-                        background: "yellow",
-                        padding: "4px 8px 4px 8px",
-                      }}
-                    >
-                      {data.title}
-                    </Card>
+                    <Card className="title">{data.title}</Card>
                   </Box>
                   <Divider />
                   <Grid container justifyContent="flex-end" textAlign="end">
                     <Grid item xs={12} sm={10} md={8} xl={6}>
                       <Grid container>
-                        <Grid item xl={4} xs={4} justifyContent="flex-end">
+                        <Grid
+                          item
+                          xl={4}
+                          xs={4}
+                          justifyContent="flex-end"
+                          className="sub-info"
+                        >
                           Author
                         </Grid>
-                        <Grid item xl={8} xs={8} justifyContent="flex-start">
+                        <Grid
+                          item
+                          xl={8}
+                          xs={8}
+                          justifyContent="flex-start"
+                          className="sub-info"
+                        >
                           {author.name}
                         </Grid>
-                        <Grid item xl={4} xs={4} justifyContent="flex-end">
+                        <Grid
+                          item
+                          xl={4}
+                          xs={4}
+                          justifyContent="flex-end"
+                          className="sub-info"
+                        >
                           Ngày Đăng
                         </Grid>
-                        <Grid item xl={8} xs={8} justifyContent="flex-end">
+                        <Grid
+                          item
+                          xl={8}
+                          xs={8}
+                          justifyContent="flex-end"
+                          className="sub-info"
+                        >
                           Ngày 20 Tháng 3
                         </Grid>
                       </Grid>
@@ -108,7 +115,7 @@ const News = () => {
                       <TwitterShareButton
                         url="http://giaoxuvinhan.com/vi/news/Thong-bao/THONG-BAO-CHUA-NHAT-XXVI-THUONG-NIEN-25-9-2022-1727/"
                         className="Demo__some-network__share-button"
-                        style={{ marginRight: 4 }}
+                        style={{ margin: 4 }}
                       >
                         <TwitterIcon size={30} round />
                         {/* Facebookでshare */}
@@ -117,7 +124,7 @@ const News = () => {
                         url="http://giaoxuvinhan.com/vi/news/Thong-bao/THONG-BAO-CHUA-NHAT-XXVI-THUONG-NIEN-25-9-2022-1727/"
                         className="Demo__some-network__share-button"
                         style={{
-                          marginRight: 4,
+                          margin: 4,
                         }}
                       >
                         <FacebookIcon size={30} round />
