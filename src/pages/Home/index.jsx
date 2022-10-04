@@ -12,7 +12,7 @@ const Home = () => {
       <Body theme={theme} display="flex">
         <Slider theme={theme} />
         <GroupTop />
-      </Body>     
+      </Body>
     </Box>
   );
 }

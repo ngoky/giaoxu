@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   Box,
@@ -7,36 +7,58 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Typography,
+  Typography
 } from "@mui/material";
+import {Menu as MenuIcon} from '@mui/icons-material'
 
 import "./index.less";
 
 const pages = [
   {
     text: "Giaó xứ vinh an",
-    to: "/",
+    to: "/home"
   },
   {
     text: "Tin tức",
-    to: "/news",
+    to: "/news"
   },
   {
     text: "liên hệ",
-    to: "/contact",
-  },
+    to: "/contact"
+  }
 ];
 
 const MyMenu = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  // const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [index, setIndex] = React.useState(0);
+  // const location = useLocation();
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+    // setIndex(0);
   };
+
+  useEffect(() => {
+    const {
+      location: { pathname }
+    } = window;
+    // console.log("call use effect", window.location);
+    for (let i = 0; i < pages.length; i += 1) {
+      const x = pages[i];
+      if (pathname.startsWith(x.to)) {
+        if (i !== index) {
+          setIndex(i);
+        }
+        break;
+      }
+    }
+  }, []);
+
+  console.log("rerender", index);
 
   return (
     <Container maxWidth="xl" className="MyMenu">
@@ -44,29 +66,33 @@ const MyMenu = () => {
         <Box sx={{ flexGrow: 1, display: { xs: "flex", sm: "none" } }}>
           <Menu
             id="menu-appbar"
+            className="MyMenu"
             anchorEl={anchorElNav}
             anchorOrigin={{
               vertical: "bottom",
-              horizontal: "left",
+              horizontal: "left"
             }}
             keepMounted
             transformOrigin={{
               vertical: "top",
-              horizontal: "left",
+              horizontal: "left"
             }}
             open={Boolean(anchorElNav)}
             onClose={handleCloseNavMenu}
             sx={{
-              display: { xs: "block", sm: "none" },
+              display: { xs: "block", sm: "none" }
             }}
           >
             {pages.map((page, i) => (
               <MenuItem
+                className={
+                  index === i ? "menu-item-popup-selected" : "menu-item"
+                }
                 key={`${page.to + i}`}
                 sx={{ hover: { backgroundColor: colors.blueGrey } }}
               >
                 <Typography
-                  className="item-text"
+                  // className="item-text"
                   textAlign="center"
                   component="a"
                   href={page.to}
@@ -89,15 +115,18 @@ const MyMenu = () => {
           sx={{
             mr: 2,
             display: { xs: "flex", sm: "none" },
-            flexGrow: 1,
+            flexGrow: 1
           }}
         >
-          Giáo Xứ Vinh An
+          <MenuIcon />  Giáo Xứ Vinh An
         </Typography>
-        <Box sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}>
+        <Box
+          sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}
+          className="menu-box"
+        >
           {pages.map((page, i) => (
             <MenuItem
-              className="menu-box"
+              className={index === i ? "menu-item-selected" : "menu-item"}
               key={`${page.to + i}`}
               sx={{ hover: { backgroundColor: colors.blueGrey } }}
             >

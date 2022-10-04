@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useTheme, Box, Grid, Card, Container, Divider } from "@mui/material";
 import { useParams } from "react-router-dom";
-import {
-  FacebookShareButton,
-  FacebookIcon,
-  TwitterShareButton,
-  TwitterIcon,
-} from "react-share";
 import postService from "../../local-storage/posts/post.service";
 import Body from "../../components/Body";
 import DEF from "../../utils/news.data";
 import "./index.less";
+import ShareButtons from "./components/ShareButtons";
+import ShortInfo from "./components/ShortInfo";
 
 // const old = false
 const News = () => {
   const { id } = useParams();
   const [data, setData] = useState();
-  const author = {
-    name: "Người đến từ nơi ấy",
-  };
-
   useEffect(() => {
     postService.fetchTop().then(
       (respose) => {
@@ -36,13 +28,12 @@ const News = () => {
     data && (
       <Box sx={{ display: "flex" }} className="News">
         <Body theme={theme} width={drawerWidth}>
-          <Grid container spacing={0}>
+          <Grid container>
             <Grid item xs={12} sm={6} md={6} display="flex">
               <Card
+                className="left-top-zone"
                 sx={{
-                  width: "100%",
-                  maxHeight: "250px",
-                  marginRight: { xl: "8px", md: "4px", sm: "4px", xs: 0 },
+                  marginRight: { xl: "8px", md: "4px", sm: "4px", xs: 0 }
                 }}
               >
                 <img
@@ -56,81 +47,29 @@ const News = () => {
               <Box
                 display="flex"
                 justifyContent="flex-end"
+                className="new-info-box"
+                flexDirection="colume"
                 sx={{
-                  marginLeft: { xl: "8px", md: "4px", sm: "2px", xs: 0 },
-                  width: "100%",
-                  height: "100%",
-                  background: "red",
+                  marginTop: { sm: 0, xs: "10px" },
+                  marginLeft: { xl: "8px", md: "4px", sm: "2px", xs: 0 }
                 }}
               >
-                <Box flexDirection="row" className="new-info" style={{}}>
-                  <Box>
-                    <Card className="title">{data.title}</Card>
-                  </Box>
-                  <Divider />
+                <Box className="title-box" title={data.title}>
+                  <Card className="title">
+                    <span>{data.title}</span>
+                  </Card>
+                </Box>
+                <Divider />
+                <Box className="short-info-box">
+                  <ShortInfo news={data} />
+                </Box>
+                <Box className="share-box">
                   <Grid container justifyContent="flex-end" textAlign="end">
-                    <Grid item xs={12} sm={10} md={8} xl={6}>
-                      <Grid container>
-                        <Grid
-                          item
-                          xl={4}
-                          xs={4}
-                          justifyContent="flex-end"
-                          className="sub-info"
-                        >
-                          Author
-                        </Grid>
-                        <Grid
-                          item
-                          xl={8}
-                          xs={8}
-                          justifyContent="flex-start"
-                          className="sub-info"
-                        >
-                          {author.name}
-                        </Grid>
-                        <Grid
-                          item
-                          xl={4}
-                          xs={4}
-                          justifyContent="flex-end"
-                          className="sub-info"
-                        >
-                          Ngày Đăng
-                        </Grid>
-                        <Grid
-                          item
-                          xl={8}
-                          xs={8}
-                          justifyContent="flex-end"
-                          className="sub-info"
-                        >
-                          Ngày 20 Tháng 3
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                  <Grid item style={{}}>
-                    <Grid container justifyContent="flex-end" textAlign="end">
-                      <TwitterShareButton
-                        url="http://giaoxuvinhan.com/vi/news/Thong-bao/THONG-BAO-CHUA-NHAT-XXVI-THUONG-NIEN-25-9-2022-1727/"
-                        className="Demo__some-network__share-button"
-                        style={{ margin: 4 }}
-                      >
-                        <TwitterIcon size={30} round />
-                        {/* Facebookでshare */}
-                      </TwitterShareButton>
-                      <FacebookShareButton
-                        url="http://giaoxuvinhan.com/vi/news/Thong-bao/THONG-BAO-CHUA-NHAT-XXVI-THUONG-NIEN-25-9-2022-1727/"
-                        className="Demo__some-network__share-button"
-                        style={{
-                          margin: 4,
-                        }}
-                      >
-                        <FacebookIcon size={30} round />
-                        {/* Facebookでshare */}
-                      </FacebookShareButton>
-                    </Grid>
+                    <ShareButtons
+                      url="http://giaoxuvinhan.com/vi/news/Thong-bao/THONG-BAO-CHUA-NHAT-XXVI-THUONG-NIEN-25-9-2022-1727/"
+                      className="Demo__some-network__share-button"
+                      style={{ margin: 4 }}
+                    />
                   </Grid>
                 </Box>
               </Box>
@@ -142,12 +81,12 @@ const News = () => {
                   marginTop: "16px",
                   spacing: "",
                   display: "inline-block",
-                  textAlign: "justify",
+                  textAlign: "justify"
                 }}
                 style={{
                   width: "100%",
                   maxWidth: "100%",
-                  padding: 0,
+                  padding: 0
                 }}
               >
                 {data.content}

@@ -1,4 +1,5 @@
-'use strict';
+/* eslint-disable import/no-dynamic-require */
+
 
 const fs = require('fs');
 const evalSourceMapMiddleware = require('react-dev-utils/evalSourceMapMiddleware');
@@ -109,6 +110,8 @@ module.exports = function (proxy, allowedHost) {
 
       if (fs.existsSync(paths.proxySetup)) {
         // This registers user provided middleware for proxy reasons
+        // eslint-disable-next-line import/no-dynamic-require
+        // eslint-disable-next-line global-require
         require(paths.proxySetup)(devServer.app);
       }
     },

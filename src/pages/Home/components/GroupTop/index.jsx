@@ -5,19 +5,18 @@ import {
   Container,
   Divider,
   Grid,
-  ListItem,
   ListItemButton,
   ListItemIcon,
   styled,
-  Typography,
+  Typography
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Link, useNavigate } from "react-router-dom";
 import PostService from "../../../../local-storage/posts/post.service";
 import DEF from "../../../../utils/news.data";
+import "./index.less";
 
 const Item = styled(Container, {
-  shouldForwardProp: (prop) => prop !== "open",
+  shouldForwardProp: (prop) => prop !== "open"
 })(({ theme, itemHeight }) => ({
   flexGrow: 1,
   flexDirection: "row",
@@ -29,19 +28,14 @@ const Item = styled(Container, {
   boxSizing: "border-box",
   transition: theme.transitions.create("margin", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
+    duration: theme.transitions.duration.leavingScreen
   }),
-  overflow: "hidden",
+  overflow: "hidden"
 }));
 
-const TopNewRow = ({ post, theme, handler }) => {
+const TopNewRow = ({ post, theme }) => {
   return (
-    <ListItem
-      key={post.id}
-      disablePadding
-      title={post.title}
-      onClick={() => handler(post.id)}
-    >
+    <Typography title={post.title} component="a" href={`/news/${post.id}`}>
       <ListItemButton style={{ maxHeight: "60px", marginLeft: 10, padding: 0 }}>
         <ListItemIcon style={{ maxHeight: "60px" }}>
           <img src={post.photo} alt={post.photo} height={50} width={50} />
@@ -52,31 +46,24 @@ const TopNewRow = ({ post, theme, handler }) => {
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
               width: "100%",
-              overflow: "hidden",
+              overflow: "hidden"
             }}
           >
             {post.title}
           </div>
           {/* <div>{text.title}</div> */}
           <Grid container justifyContent="flex-end">
-            <Link href={`news/${post.id}`} text="Read more">
-              Read more
-            </Link>
+            Read more
           </Grid>
         </Item>
       </ListItemButton>
-    </ListItem>
+    </Typography>
   );
 };
 
-const TopNews = ({ post, theme, handler }) => {
+const TopNews = ({ post, theme }) => {
   return (
-    <ListItem
-      key={post.id}
-      disablePadding
-      title={post.title}
-      onClick={() => handler(post.id)}
-    >
+    <Typography title={post.title} component="a" href={`news/${post.id}`}>
       <ListItemButton style={{ maxHeight: "60px", marginLeft: 0, padding: 0 }}>
         <ListItemIcon style={{ maxHeight: "60px", minWidth: 0 }}>
           <VisibilityIcon />
@@ -88,55 +75,56 @@ const TopNews = ({ post, theme, handler }) => {
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
               marginLeft: 8,
-              padding: 0,
+              padding: 0
             }}
           >
             {post.title}
           </Container>
         </Item>
       </ListItemButton>
-    </ListItem>
+    </Typography>
   );
 };
 
 const NewsArray = (props) => {
-  const { posts, typeId, handler } = props;
+  const { posts, typeId } = props;
   const post = posts.length > 0 ? posts[0] : null;
   return (
     <Box
+      className="latest-news-box"
       style={{
-        background: "transparent",
-        flexShrink: true,
-        paddingLeft: 8,
-        paddingRight: 8,
+        flexShrink: true
       }}
       flexDirection="row"
     >
-      {post && <TopNewRow post={post} handler={handler} />}
+      {post && <TopNewRow post={post} />}
       <Divider />
       {posts.map((x, index) => (
-        <>
-          {index > 0 && (
-            <TopNews
-              post={x}
-              typeId={typeId}
-              itemHeight={100}
-              handler={handler}
-            />
-          )}
+        <div key={`${typeId}_${x.id}`}>
+          <div id="parent-below" className="group-news-box">
+            {index > 0 && (
+              <TopNews
+                id="TopNews"
+                post={x}
+                typeId={typeId}
+                itemHeight={100}
+                // className="group-news-box"
+              />
+            )}
+          </div>
           {index !== 0 && index !== posts.length - 1 && <Divider />}
-        </>
+        </div>
       ))}
     </Box>
   );
 };
 
 const ChildView = (props) => {
-  const { data = [], handler } = props;
+  const { data = [] } = props;
   return (
     <>
       <Typography>Latest News</Typography>
-      <Grid container justifyContent="center">
+      <Grid container justifyContent="center" className="GroupTop">
         {data.map((x) => (
           <Grid
             key={x.id}
@@ -149,7 +137,7 @@ const ChildView = (props) => {
               borderRadius: "0 0 ",
               background: "white",
               marginTop: 4,
-              boxShadow: 12,
+              boxShadow: 12
             }}
           >
             <Box
@@ -159,7 +147,7 @@ const ChildView = (props) => {
                 borderBottomRightRadius: 8,
                 border: "1px solid gray",
                 background: "white",
-                height: "98%",
+                height: "98%"
               }}
               flexDirection="row"
             >
@@ -169,12 +157,12 @@ const ChildView = (props) => {
                     "linear-gradient(to right bottom,#82ffa1, #430089)",
                   borderRadius: "0 0 0 0",
                   padding: 8,
-                  opacity: 0.8,
+                  opacity: 0.8
                 }}
               >
                 <Typography component="h2">{x.name}</Typography>
               </Card>
-              <NewsArray posts={x.posts} typeId={x.id} handler={handler} />
+              <NewsArray posts={x.posts} typeId={x.id} />
             </Box>
           </Grid>
         ))}
@@ -196,14 +184,7 @@ const GroupTop = () => {
       }
     );
   }, []);
-
-  const history = useNavigate();
-  const viewDetail = (id) => {
-    console.log(id);
-    history(`/news/${id}`);
-  };
-
   // const data = DEF.newByType()
-  return <ChildView data={data} handler={viewDetail} />;
+  return <ChildView id="ChildView" data={data} />;
 };
 export default GroupTop;
