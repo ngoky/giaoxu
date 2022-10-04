@@ -1,74 +1,180 @@
-import React, { useEffect, useState } from "react"
-import { Box, Card, Grid, styled, Typography, useTheme } from "@mui/material"
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Card,
+  Container,
+  Divider,
+  Grid,
+  ListItemButton,
+  ListItemIcon,
+  styled,
+  Typography
+} from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import PostService from "../../../../local-storage/posts/post.service";
-import DEF from "../news.data";
+import DEF from "../../../../utils/news.data";
+import "./index.less";
 
-const LinkRowStyle = styled(Box)(
-  () => ({
-    flexGrow: 1,
-    margin: 0,
-    boxSizing: 'border-box',
+const Item = styled(Container, {
+  shouldForwardProp: (prop) => prop !== "open"
+})(({ theme, itemHeight }) => ({
+  flexGrow: 1,
+  flexDirection: "row",
+  margin: 0,
+  height: `${itemHeight}px`,
+  maxHeight: `${itemHeight}px`,
+  padding: 0,
+  // padding: theme.spacing(3),
+  boxSizing: "border-box",
+  transition: theme.transitions.create("margin", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen
   }),
-);
+  overflow: "hidden"
+}));
 
-const LinkRow = (props) => {
-  const {post, typeId} = props
-  const theme = useTheme()
+const TopNewRow = ({ post, theme }) => {
   return (
-    <LinkRowStyle theme={theme} key={`${typeId}${post.id}`} style={{background:'cyan'}} display="flex">
-      <Typography style={{height: 50}} component="div" href={`news/${typeId}/${post.id}`}><VisibilityIcon /> {post.title}</Typography>
-    </LinkRowStyle>
-  )
-}
+    <Typography title={post.title} component="a" href={`/news/${post.id}`}>
+      <ListItemButton style={{ maxHeight: "60px", marginLeft: 10, padding: 0 }}>
+        <ListItemIcon style={{ maxHeight: "60px" }}>
+          <img src={post.photo} alt={post.photo} height={50} width={50} />
+        </ListItemIcon>
+        <Item theme={theme} height={50} style={{ paddingLeft: 2 }}>
+          <div
+            style={{
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+              width: "100%",
+              overflow: "hidden"
+            }}
+          >
+            {post.title}
+          </div>
+          {/* <div>{text.title}</div> */}
+          <Grid container justifyContent="flex-end">
+            Read more
+          </Grid>
+        </Item>
+      </ListItemButton>
+    </Typography>
+  );
+};
+
+const TopNews = ({ post, theme }) => {
+  return (
+    <Typography title={post.title} component="a" href={`news/${post.id}`}>
+      <ListItemButton style={{ maxHeight: "60px", marginLeft: 0, padding: 0 }}>
+        <ListItemIcon style={{ maxHeight: "60px", minWidth: 0 }}>
+          <VisibilityIcon />
+        </ListItemIcon>
+        <Item theme={theme} height={50}>
+          <Container
+            style={{
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+              marginLeft: 8,
+              padding: 0
+            }}
+          >
+            {post.title}
+          </Container>
+        </Item>
+      </ListItemButton>
+    </Typography>
+  );
+};
 
 const NewsArray = (props) => {
-    const {posts, typeId} = props
-    const post = posts.length > 0 ?  posts[0]: null
-    return (
-      <Box style={{background:'yellow', marginLeft:8, flexShrink: true}} flexDirection="row">
-        {post &&        
-          <Box key={`${typeId}${post.id}`} style={{background:'cyan', overflow:'hidden'}} flexDirection="column">
-            <img src={post.photo} width={50} height={50} alt={post.photo} />                  
-            <Typography component="a" href={`news/${post.id}`}>{post.title}</Typography>
-          </Box>}
-        {
-            posts.map(
-                (x, index) => (
-                  index > 0 && <LinkRow post={x} typeId={typeId} />
-                )
-            )
-        }
-      </Box>
-    )
-}
+  const { posts, typeId } = props;
+  const post = posts.length > 0 ? posts[0] : null;
+  return (
+    <Box
+      className="latest-news-box"
+      style={{
+        flexShrink: true
+      }}
+      flexDirection="row"
+    >
+      {post && <TopNewRow post={post} />}
+      <Divider />
+      {posts.map((x, index) => (
+        <div key={`${typeId}_${x.id}`}>
+          <div id="parent-below" className="group-news-box">
+            {index > 0 && (
+              <TopNews
+                id="TopNews"
+                post={x}
+                typeId={typeId}
+                itemHeight={100}
+                // className="group-news-box"
+              />
+            )}
+          </div>
+          {index !== 0 && index !== posts.length - 1 && <Divider />}
+        </div>
+      ))}
+    </Box>
+  );
+};
 
 const ChildView = (props) => {
-    const {data = []} = props
-    return(
-      <>
-        <Typography>Latest News</Typography>
-        <Grid container justifyContent="center">
-          {data.map((x) => (
-            <Grid key={x.id} item xl={3} md={4} sm={6} xs={12} style={{ borderRadius: '0 0 ', background:'white' }}>
-              <Box style={{margin:2, borderBottomLeftRadius: 8, borderBottomRightRadius: 8, border: '1px solid red', background:'cyan', height:'98%'}} flexDirection="row">
-                <Card style={{background:'green', borderRadius: '0 0 0 0'}}>
-                  <Typography component='h2'>{x.name}</Typography>            
-                </Card>
-                <NewsArray posts={x.posts} typeId={x.id} />
-              </Box>
-            </Grid>
-            )
-        )}
-        </Grid>
-      </>
-    )
-}
+  const { data = [] } = props;
+  return (
+    <>
+      <Typography>Latest News</Typography>
+      <Grid container justifyContent="center" className="GroupTop">
+        {data.map((x) => (
+          <Grid
+            key={x.id}
+            item
+            xl={3}
+            md={4}
+            sm={6}
+            xs={12}
+            style={{
+              borderRadius: "0 0 ",
+              background: "white",
+              marginTop: 4,
+              boxShadow: 12
+            }}
+          >
+            <Box
+              style={{
+                margin: 2,
+                borderBottomLeftRadius: 8,
+                borderBottomRightRadius: 8,
+                border: "1px solid gray",
+                background: "white",
+                height: "98%"
+              }}
+              flexDirection="row"
+            >
+              <Card
+                style={{
+                  background:
+                    "linear-gradient(to right bottom,#82ffa1, #430089)",
+                  borderRadius: "0 0 0 0",
+                  padding: 8,
+                  opacity: 0.8
+                }}
+              >
+                <Typography component="h2">{x.name}</Typography>
+              </Card>
+              <NewsArray posts={x.posts} typeId={x.id} />
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
+    </>
+  );
+};
 
 const GroupTop = () => {
-    const [data = [], setData] = useState([])
-    useEffect(() => {
-        PostService.fetchTop().then(
+  const [data = [], setData] = useState([]);
+  useEffect(() => {
+    PostService.fetchTop().then(
       (respose) => {
         setData(respose);
       },
@@ -77,10 +183,8 @@ const GroupTop = () => {
         setData(DEF.newByType);
       }
     );
-    },[])
-    // const data = DEF.newByType()
-    return(
-      <ChildView data={data} />
-    )
-}
-export default GroupTop
+  }, []);
+  // const data = DEF.newByType()
+  return <ChildView id="ChildView" data={data} />;
+};
+export default GroupTop;
