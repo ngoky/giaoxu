@@ -1,0 +1,34 @@
+{
+    "page": {
+        "home": {
+            "top.news.title": "Latest New"
+        }
+    },
+    "menus": {
+        "navbar": [
+            {
+                "to": "/home",
+                "text": "Vinh An Parish"
+            },
+            {
+                "to": "/news",
+                "text": "News"
+            },
+            {
+                "to": "/contact",
+                "text": "Contact"
+            },
+            {
+                "to": "/admin",
+                "text": "Admin",
+                "authorize": true
+            }
+        ]
+    },
+    "user-setting": [
+        {
+            "to": "login",
+            "text": "Login"
+        }
+    ]
+}

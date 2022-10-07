@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Box,
   Card,
@@ -8,15 +9,15 @@ import {
   ListItemButton,
   ListItemIcon,
   styled,
-  Typography
+  Typography,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import PostService from "../../../../local-storage/posts/post.service";
 import DEF from "../../../../utils/news.data";
-import "./index.less";
+import "./index.scss";
 
 const Item = styled(Container, {
-  shouldForwardProp: (prop) => prop !== "open"
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, itemHeight }) => ({
   flexGrow: 1,
   flexDirection: "row",
@@ -28,9 +29,9 @@ const Item = styled(Container, {
   boxSizing: "border-box",
   transition: theme.transitions.create("margin", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen
+    duration: theme.transitions.duration.leavingScreen,
   }),
-  overflow: "hidden"
+  overflow: "hidden",
 }));
 
 const TopNewRow = ({ post, theme }) => {
@@ -46,7 +47,7 @@ const TopNewRow = ({ post, theme }) => {
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
               width: "100%",
-              overflow: "hidden"
+              overflow: "hidden",
             }}
           >
             {post.title}
@@ -75,7 +76,7 @@ const TopNews = ({ post, theme }) => {
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
               marginLeft: 8,
-              padding: 0
+              padding: 0,
             }}
           >
             {post.title}
@@ -93,7 +94,7 @@ const NewsArray = (props) => {
     <Box
       className="latest-news-box"
       style={{
-        flexShrink: true
+        flexShrink: true,
       }}
       flexDirection="row"
     >
@@ -121,9 +122,10 @@ const NewsArray = (props) => {
 
 const ChildView = (props) => {
   const { data = [] } = props;
+  const { t } = useTranslation();
   return (
     <>
-      <Typography>Latest News</Typography>
+      <Typography>{t("page.home.top.news.title")}</Typography>
       <Grid container justifyContent="center" className="GroupTop">
         {data.map((x) => (
           <Grid
@@ -137,7 +139,7 @@ const ChildView = (props) => {
               borderRadius: "0 0 ",
               background: "white",
               marginTop: 4,
-              boxShadow: 12
+              boxShadow: 12,
             }}
           >
             <Box
@@ -147,7 +149,7 @@ const ChildView = (props) => {
                 borderBottomRightRadius: 8,
                 border: "1px solid gray",
                 background: "white",
-                height: "98%"
+                height: "98%",
               }}
               flexDirection="row"
             >
@@ -157,7 +159,7 @@ const ChildView = (props) => {
                     "linear-gradient(to right bottom,#82ffa1, #430089)",
                   borderRadius: "0 0 0 0",
                   padding: 8,
-                  opacity: 0.8
+                  opacity: 0.8,
                 }}
               >
                 <Typography component="h2">{x.name}</Typography>
