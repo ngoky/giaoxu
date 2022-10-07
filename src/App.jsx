@@ -1,16 +1,16 @@
 import { useTheme, Box, Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { MenuOpen, Menu } from "@mui/icons-material";
 import MyMenu from "./components/AppBar/components/AppBar";
 import Banner from "./components/Banner";
 import Routers from "./routes";
 
-import "./App.css";
-// import './index.less';
+import "./App.scss";
 import LeftDrawer from "./components/Drawable";
 import Display from "./components/Display";
 import MenuLayout from "./components/MenuButton";
+import "./translation/i18n";
 
 const drawerWidth = 240;
 const menuButtonWidth = 40;
@@ -18,12 +18,17 @@ const menuButtonWidth = 40;
 const App = () => {
   const theme = useTheme();
   const [open, setOpen] = useState();
+  const [auth, setAuth] = useState();
 
   const openHander = (mark) => {
     setOpen(mark);
     document.body.style.overflow = mark ? "hidden" : "auto";
   };
+  useEffect(() => {
+    setAuth(null);
+  }, []);
   return (
+    // <Suspense fallback="loading">
     <Box display="flex" className="App">
       <LeftDrawer
         theme={theme}
@@ -52,7 +57,7 @@ const App = () => {
           }}
         >
           <BrowserRouter>
-            <Routers />
+            <Routers auth={auth} />
           </BrowserRouter>
         </div>
       </Display>
@@ -86,6 +91,7 @@ const App = () => {
         </Button>
       </MenuLayout>
     </Box>
+    // </Suspense>
   );
 };
 export default App;

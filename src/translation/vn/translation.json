@@ -1,0 +1,23 @@
+{
+    "menus": {
+        "navbar": [
+            {
+                "to": "/home",
+                "text": "Giáo Xứ Vinh An"
+            },
+            {
+                "to": "/news",
+                "text": "Tin Tức"
+            },
+            {
+                "to": "/contact",
+                "text": "Liện hệ"
+            },
+            {
+                "to": "/admin",
+                "text": "Admin",
+                "authorize": true
+            }
+        ]
+    }
+}

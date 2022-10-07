@@ -7,26 +7,12 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Typography
+  Typography,
 } from "@mui/material";
-import {Menu as MenuIcon} from '@mui/icons-material'
+import { Menu as MenuIcon } from "@mui/icons-material";
 
-import "./index.less";
-
-const pages = [
-  {
-    text: "Giaó xứ vinh an",
-    to: "/home"
-  },
-  {
-    text: "Tin tức",
-    to: "/news"
-  },
-  {
-    text: "liên hệ",
-    to: "/contact"
-  }
-];
+import "./index.scss";
+import { useTranslation } from "react-i18next";
 
 const MyMenu = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -42,9 +28,13 @@ const MyMenu = () => {
     // setIndex(0);
   };
 
+  const { t } = useTranslation();
+
+  const pages = t("menus.navbar", { returnObjects: true });
+
   useEffect(() => {
     const {
-      location: { pathname }
+      location: { pathname },
     } = window;
     // console.log("call use effect", window.location);
     for (let i = 0; i < pages.length; i += 1) {
@@ -56,7 +46,7 @@ const MyMenu = () => {
         break;
       }
     }
-  }, []);
+  }, [index, pages]);
 
   console.log("rerender", index);
 
@@ -70,17 +60,17 @@ const MyMenu = () => {
             anchorEl={anchorElNav}
             anchorOrigin={{
               vertical: "bottom",
-              horizontal: "left"
+              horizontal: "left",
             }}
             keepMounted
             transformOrigin={{
               vertical: "top",
-              horizontal: "left"
+              horizontal: "left",
             }}
             open={Boolean(anchorElNav)}
             onClose={handleCloseNavMenu}
             sx={{
-              display: { xs: "block", sm: "none" }
+              display: { xs: "block", sm: "none" },
             }}
           >
             {pages.map((page, i) => (
@@ -115,10 +105,10 @@ const MyMenu = () => {
           sx={{
             mr: 2,
             display: { xs: "flex", sm: "none" },
-            flexGrow: 1
+            flexGrow: 1,
           }}
         >
-          <MenuIcon />  Giáo Xứ Vinh An
+          <MenuIcon /> Giáo Xứ Vinh An
         </Typography>
         <Box
           sx={{ flexGrow: 1, display: { xs: "none", sm: "flex" } }}
