@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Outlet, redirect, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import GuestRoutes from "./GuestRoutes";
 import AdminRoutes from "./AdminRoutes";
 
@@ -15,7 +15,7 @@ const ProtectedRouter = ({ user, redirectPath = "/home", children }) => {
 const Routers = (props) => {
   const { auth } = props;
   const authRouters = AdminRoutes(auth);
-  console.log("Routers", auth);
+  // console.log("Routers", auth);
   return (
     <Routes>
       {/* <GuestRoute data={GuestRoutes} /> */}

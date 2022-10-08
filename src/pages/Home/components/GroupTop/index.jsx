@@ -9,15 +9,18 @@ import {
   ListItemButton,
   ListItemIcon,
   styled,
-  Typography,
+  Typography
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import PostService from "../../../../local-storage/posts/post.service";
-import DEF from "../../../../utils/news.data";
+// import PostService from "../../../../storage/posts/post.service";
+// import { newByType } from "../../../../utils/news.data";
 import "./index.scss";
+import { postActions } from "../../../../storage/actions";
+import { connect } from "react-redux";
+import { store } from "../../../../storage/helpers";
 
 const Item = styled(Container, {
-  shouldForwardProp: (prop) => prop !== "open",
+  shouldForwardProp: (prop) => prop !== "open"
 })(({ theme, itemHeight }) => ({
   flexGrow: 1,
   flexDirection: "row",
@@ -29,9 +32,9 @@ const Item = styled(Container, {
   boxSizing: "border-box",
   transition: theme.transitions.create("margin", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
+    duration: theme.transitions.duration.leavingScreen
   }),
-  overflow: "hidden",
+  overflow: "hidden"
 }));
 
 const TopNewRow = ({ post, theme }) => {
@@ -47,7 +50,7 @@ const TopNewRow = ({ post, theme }) => {
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
               width: "100%",
-              overflow: "hidden",
+              overflow: "hidden"
             }}
           >
             {post.title}
@@ -76,7 +79,7 @@ const TopNews = ({ post, theme }) => {
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
               marginLeft: 8,
-              padding: 0,
+              padding: 0
             }}
           >
             {post.title}
@@ -94,7 +97,7 @@ const NewsArray = (props) => {
     <Box
       className="latest-news-box"
       style={{
-        flexShrink: true,
+        flexShrink: true
       }}
       flexDirection="row"
     >
@@ -121,7 +124,8 @@ const NewsArray = (props) => {
 };
 
 const ChildView = (props) => {
-  const { data = [] } = props;
+  const { data } = props;
+  console.log(data);
   const { t } = useTranslation();
   return (
     <>
@@ -139,7 +143,7 @@ const ChildView = (props) => {
               borderRadius: "0 0 ",
               background: "white",
               marginTop: 4,
-              boxShadow: 12,
+              boxShadow: 12
             }}
           >
             <Box
@@ -149,7 +153,7 @@ const ChildView = (props) => {
                 borderBottomRightRadius: 8,
                 border: "1px solid gray",
                 background: "white",
-                height: "98%",
+                height: "98%"
               }}
               flexDirection="row"
             >
@@ -159,7 +163,7 @@ const ChildView = (props) => {
                     "linear-gradient(to right bottom,#82ffa1, #430089)",
                   borderRadius: "0 0 0 0",
                   padding: 8,
-                  opacity: 0.8,
+                  opacity: 0.8
                 }}
               >
                 <Typography component="h2">{x.name}</Typography>
@@ -173,20 +177,30 @@ const ChildView = (props) => {
   );
 };
 
-const GroupTop = () => {
-  const [data = [], setData] = useState([]);
+const GroupTop = (props) => {
+  const { fetchTop } = props;
+  const [data = [], setData] = useState();
+  // const dispatch = useDispatch();
+  store.subscribe((x) => {
+    const state = store.getState();
+    console.log("state", state);
+    setData(state.post.data);
+  });
   useEffect(() => {
-    PostService.fetchTop().then(
-      (respose) => {
-        setData(respose);
-      },
-      () => {
-        // console.log(err);
-        setData(DEF.newByType);
-      }
-    );
-  }, []);
-  // const data = DEF.newByType()
+    fetchTop();
+  }, [fetchTop]);
+  console.log("render", data);
   return <ChildView id="ChildView" data={data} />;
 };
-export default GroupTop;
+
+const mapState = (state) => {
+  const { data } = state;
+  // const { user } = authentication;
+  return { data };
+};
+
+const actionCreators = {
+  fetchTop: postActions.fetchTop
+};
+const ConnectedGroupTop = connect(mapState, actionCreators)(GroupTop);
+export default ConnectedGroupTop;

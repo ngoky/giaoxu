@@ -10,9 +10,9 @@ const NotFoundPage = () => {
   const history = useNavigate()
   useEffect(() => {
     setTimeout(() => {
-      history(-1)
-    }, 2000)
-  }, [])
+      history(-1);
+    }, 2000);
+  }, [history]);
   return (
     <Box
       sx={{
