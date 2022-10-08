@@ -58,13 +58,12 @@ const Row = (props) => {
   const { index, theme, data, style } = props;
   const { posts, cIndex, handleChange } = data;
   const selected = index === cIndex;
-  // console.log('row',index, cIndex)
   const text =
     posts.length > 0
       ? posts[index]
       : {
           photo: "haiz",
-          title: "nan",
+          title: "nan"
         };
   const changeIndex = (event) => {
     // currentIndex = index
@@ -90,7 +89,7 @@ const Row = (props) => {
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
               width: "100%",
-              overflow: "hidden",
+              overflow: "hidden"
             }}
           >
             {text.title}
@@ -109,8 +108,7 @@ const Row = (props) => {
 
 Row.propTypes = {
   index: PropTypes.number.isRequired,
-  style: PropTypes.object.isRequired,
-  // currentIndex: PropTypes.number.isRequired,
+  style: PropTypes.object.isRequired
 };
 
 const RightView = (props) => {
@@ -120,7 +118,7 @@ const RightView = (props) => {
   useEffect(() => {
     setCurrentIndex(index);
     placeSelectedItemInTheMiddle(currentIndex);
-  });
+  }, [index, currentIndex]);
   const changeIndex = (newIndex) => {
     setCurrentIndex(newIndex);
   };

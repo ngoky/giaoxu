@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useTheme, Box, Grid, Card, Container, Divider } from "@mui/material";
 import { useParams } from "react-router-dom";
-import postService from "../../local-storage/posts/post.service";
+import postService from "../../storage/posts/post.service";
 import Body from "../../components/Body";
-import DEF from "../../utils/news.data";
+import { newDetail } from "../../utils/news.data";
 import "./index.scss";
 import ShareButtons from "./components/ShareButtons";
 import ShortInfo from "./components/ShortInfo";
@@ -18,10 +18,10 @@ const News = () => {
         setData(respose);
       },
       () => {
-        setData(DEF.newDetail(id));
+        setData(newDetail(id));
       }
     );
-  }, []);
+  }, [id]);
   const drawerWidth = 240;
   const theme = useTheme();
   return (
@@ -33,7 +33,7 @@ const News = () => {
               <Card
                 className="left-top-zone"
                 sx={{
-                  marginRight: { xl: "8px", md: "4px", sm: "4px", xs: 0 },
+                  marginRight: { xl: "8px", md: "4px", sm: "4px", xs: 0 }
                 }}
               >
                 <img
@@ -51,7 +51,7 @@ const News = () => {
                 flexDirection="colume"
                 sx={{
                   marginTop: { sm: 0, xs: "10px" },
-                  marginLeft: { xl: "8px", md: "4px", sm: "2px", xs: 0 },
+                  marginLeft: { xl: "8px", md: "4px", sm: "2px", xs: 0 }
                 }}
               >
                 <Box className="title-box" title={data.title}>
@@ -81,12 +81,12 @@ const News = () => {
                   marginTop: "16px",
                   spacing: "",
                   display: "inline-block",
-                  textAlign: "justify",
+                  textAlign: "justify"
                 }}
                 style={{
                   width: "100%",
                   maxWidth: "100%",
-                  padding: 0,
+                  padding: 0
                 }}
               >
                 {data.content}
@@ -97,7 +97,6 @@ const News = () => {
       </Box>
     )
   );
-  // return (old ? <PersistentDrawerLeft /> : <NewPersistentDrawerLeft />)
 };
 
 export default News;

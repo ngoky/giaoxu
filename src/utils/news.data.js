@@ -3,7 +3,7 @@ import post from './news.constant'
 
 const images = ['assets/logo192.png', 'assets/logo512.png', "https://imagens.nxplay.com.br/video_thumb/9e196b28-98ce-47d1-8e80-1f163ac8f5fb.jpg"]
 
-const fetchTop = () => {
+export const fetchTop = () => {
   const posts = [];
   for (let i = 0; i < 10; i += 1) {
     const index = i + 1;
@@ -17,7 +17,21 @@ const fetchTop = () => {
   return posts;
 };
 
-const newByType = () => {
+export const fetchTopDefault = () => {
+  const posts = [];
+  for (let i = 0; i < 10; i += 1) {
+    const index = i + 1;
+    posts.push({
+      ...post,
+      photo: images[util.random({ min: 0, max: images.length - 1 })],
+      title: `${index}. Test the slider and display to in to specific view ${index}`,
+      id: index
+    });
+  }
+  return posts;
+};
+
+export const newByType = () => {
   const posts = [];
   for (let i = 0; i < 10; i += 1) {
     const index = i + 1;
@@ -43,7 +57,7 @@ const newByType = () => {
   return posts;
 };
 
-const newDetail = (id) => {
+export const newDetail = (id) => {
   return {
     ...post,
     title:
@@ -60,5 +74,3 @@ const newDetail = (id) => {
     type: { id: 12, name: "Type of days" }
   };
 };
-
-export default { fetchTop, newByType, newDetail };

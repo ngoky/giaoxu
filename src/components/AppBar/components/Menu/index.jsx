@@ -14,10 +14,11 @@ import { Menu as MenuIcon } from "@mui/icons-material";
 import "./index.scss";
 import { useTranslation } from "react-i18next";
 
-const MyMenu = () => {
+const MyMenu = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [index, setIndex] = React.useState(0);
   // const location = useLocation();
+  const { auth } = props;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -30,11 +31,14 @@ const MyMenu = () => {
 
   const { t } = useTranslation();
 
-  const pages = t("menus.navbar", { returnObjects: true });
+  const pages = t("menus.navbar", { returnObjects: true }).filter((x) => {
+    // console.log("is false", x, (x?.authorize || false) === false);
+    return (x?.authorize || false) === false || (x.authorize && auth);
+  });
 
   useEffect(() => {
     const {
-      location: { pathname },
+      location: { pathname }
     } = window;
     // console.log("call use effect", window.location);
     for (let i = 0; i < pages.length; i += 1) {
@@ -48,7 +52,7 @@ const MyMenu = () => {
     }
   }, [index, pages]);
 
-  console.log("rerender", index);
+  // console.log("rerender", index);
 
   return (
     <Container maxWidth="xl" className="MyMenu">
@@ -60,17 +64,17 @@ const MyMenu = () => {
             anchorEl={anchorElNav}
             anchorOrigin={{
               vertical: "bottom",
-              horizontal: "left",
+              horizontal: "left"
             }}
             keepMounted
             transformOrigin={{
               vertical: "top",
-              horizontal: "left",
+              horizontal: "left"
             }}
             open={Boolean(anchorElNav)}
             onClose={handleCloseNavMenu}
             sx={{
-              display: { xs: "block", sm: "none" },
+              display: { xs: "block", sm: "none" }
             }}
           >
             {pages.map((page, i) => (
@@ -105,7 +109,7 @@ const MyMenu = () => {
           sx={{
             mr: 2,
             display: { xs: "flex", sm: "none" },
-            flexGrow: 1,
+            flexGrow: 1
           }}
         >
           <MenuIcon /> Giáo Xứ Vinh An

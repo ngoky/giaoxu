@@ -15,7 +15,7 @@ const option = {
     fallbackLng,
     supportedLngs,
     ns: 'translation',
-    debug: true,
+    // debug: true,
     saveMissing: true,
     partialBundledLanguages: true,
     updateMissing: true,

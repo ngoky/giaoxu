@@ -5,8 +5,8 @@ import React, { useEffect, useState } from "react";
 // Import css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import PostService from "../../../../local-storage/posts/post.service";
-import DEF from "../../../../utils/news.data";
+import PostService from "../../../../storage/posts/post.service";
+import { fetchTop } from "../../../../utils/news.data";
 import LeftView from "./left.view";
 import RightView from "./right.view";
 
@@ -49,7 +49,7 @@ const Slider = () => {
       },
       () => {
         // console.log(err);
-        setTopPost(DEF.fetchTop);
+        setTopPost(fetchTop());
       }
     );
   }, []);

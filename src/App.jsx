@@ -5,6 +5,8 @@ import { MenuOpen, Menu } from "@mui/icons-material";
 import MyMenu from "./components/AppBar/components/AppBar";
 import Banner from "./components/Banner";
 import Routers from "./routes";
+import { alertActions } from "./storage/actions";
+import { connect } from "react-redux";
 
 import "./App.scss";
 import LeftDrawer from "./components/Drawable";
@@ -53,7 +55,7 @@ const App = () => {
           style={{
             position: "relative",
             margin: `0 ${menuButtonWidth}px 0 ${menuButtonWidth}px`,
-            overflow: "hidden",
+            overflow: "hidden"
           }}
         >
           <BrowserRouter>
@@ -74,7 +76,7 @@ const App = () => {
           display: "flex",
           opacity: 0.8,
           textAlign: "center",
-          scrollBehavior: "unset",
+          scrollBehavior: "unset"
         }}
       >
         <Button
@@ -83,7 +85,7 @@ const App = () => {
             background: `${open ? "blue" : "transparent"}`,
             maxWidth: `${menuButtonWidth}px`,
             minWidth: `${menuButtonWidth}px`,
-            padding: 0,
+            padding: 0
           }}
           title="open menu"
         >
@@ -94,4 +96,15 @@ const App = () => {
     // </Suspense>
   );
 };
-export default App;
+
+const mapState = (state) => {
+  const { alert } = state;
+  return { alert };
+};
+
+const actionCreators = {
+  clearAlerts: alertActions.clear
+};
+
+const ConnectedApp = connect(mapState, actionCreators)(App);
+export default ConnectedApp;
