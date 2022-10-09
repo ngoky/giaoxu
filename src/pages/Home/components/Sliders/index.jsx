@@ -5,10 +5,10 @@ import React, { useEffect, useState } from "react";
 // Import css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import PostService from "../../../../storage/posts/post.service";
-import { fetchTop } from "../../../../utils/news.data";
 import LeftView from "./left.view";
 import RightView from "./right.view";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { postActions } from "../../../../storage/actions";
 
 const Layout = styled(Grid, { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme }) => ({
@@ -18,8 +18,8 @@ const Layout = styled(Grid, { shouldForwardProp: (prop) => prop !== "open" })(
     boxSizing: "border-box",
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    })
+      duration: theme.transitions.duration.leavingScreen,
+    }),
   })
 );
 const settings = {
@@ -32,40 +32,50 @@ const settings = {
   autoplaySpeed: 2000,
   slickNext: true,
   slickPrevious: true,
-  swipe: true
+  swipe: true,
 };
-const sliderHeight = 300
-const Slider = () => {
-  const [topPost = [], setTopPost] = useState();
+const sliderHeight = 300;
+const Slider = (props) => {
+  // const [topPost = [], setTopPost] = useState();
   const [index, setIndex] = useState(0);
   const beforeChange = (_, newIndex) => {
     setIndex(newIndex);
   };
+  const dispatch = useDispatch();
+  const topPost = useSelector((state) => {
+    console.log("check state", state);
+    return state.post.topNews;
+  });
 
   useEffect(() => {
-    PostService.fetchTop().then(
-      (respose) => {
-        setTopPost(respose);
-      },
-      () => {
-        // console.log(err);
-        setTopPost(fetchTop());
-      }
-    );
-  }, []);
+    dispatch(postActions.fetchTop);
+    // setTopPost(topPost);
+  }, [dispatch]);
+
+  console.log("renders", topPost);
   return (
+    topPost &&
     topPost.length > 0 && (
       <Box sx={{ flexGrow: 1, marginBottom: "60px" }}>
-        <Grid container maxHeight={sliderHeight} height={sliderHeight} sx={{ flexDirection: "column" }}>
+        <Grid
+          container
+          maxHeight={sliderHeight}
+          height={sliderHeight}
+          sx={{ flexDirection: "column" }}
+        >
           <Grid
             item
             xs={0}
             sm={0}
             md={3}
             xl={3}
-            sx={{ display: { xs: "none", sm: 'none', md: "flex" } }}
+            sx={{ display: { xs: "none", sm: "none", md: "flex" } }}
           >
-            <LeftView post={topPost[index]} index={index} height={sliderHeight} />
+            <LeftView
+              post={topPost[index]}
+              index={index}
+              height={sliderHeight}
+            />
           </Grid>
           <Layout item xs={12} sm={8} md={6} xl={6}>
             <ReactSlick
@@ -83,7 +93,7 @@ const Slider = () => {
               beforeChange={beforeChange}
             >
               {topPost.map((element) => (
-                <div key={element.label} style={{width:'100%'}}>
+                <div key={element.label} style={{ width: "100%" }}>
                   <img
                     src={element.photo}
                     alt={element.label}
@@ -93,8 +103,8 @@ const Slider = () => {
                       maxHeight: `${sliderHeight}px`,
                       display: "block",
                       overflow: "hidden",
-                      margin: 'auto',
-                      width: "100%"
+                      margin: "auto",
+                      width: "100%",
                     }}
                   />
                 </div>
@@ -107,9 +117,14 @@ const Slider = () => {
             sm={4}
             md={3}
             xl={3}
-            sx={{ display: { xs:'none', sm:"flex", md: "flex" } }}
+            sx={{ display: { xs: "none", sm: "flex", md: "flex" } }}
           >
-            <RightView posts={topPost} index={index} height={sliderHeight} style={{border: "solid 1px black"}} />
+            <RightView
+              posts={topPost}
+              index={index}
+              height={sliderHeight}
+              style={{ border: "solid 1px black" }}
+            />
           </Grid>
         </Grid>
       </Box>
@@ -117,4 +132,12 @@ const Slider = () => {
   );
 };
 
-export default Slider;
+const mapState = (state) => {
+  return { posts: state.post.topNews };
+};
+
+const actionCreators = {
+  fetchTop: postActions.fetchTop,
+};
+const ConnectedSlider = connect(mapState, actionCreators)(Slider);
+export default ConnectedSlider;
