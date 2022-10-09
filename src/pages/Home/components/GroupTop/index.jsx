@@ -9,18 +9,18 @@ import {
   ListItemButton,
   ListItemIcon,
   styled,
-  Typography
+  Typography,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 // import PostService from "../../../../storage/posts/post.service";
 // import { newByType } from "../../../../utils/news.data";
 import "./index.scss";
 import { postActions } from "../../../../storage/actions";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { store } from "../../../../storage/helpers";
 
 const Item = styled(Container, {
-  shouldForwardProp: (prop) => prop !== "open"
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, itemHeight }) => ({
   flexGrow: 1,
   flexDirection: "row",
@@ -32,9 +32,9 @@ const Item = styled(Container, {
   boxSizing: "border-box",
   transition: theme.transitions.create("margin", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen
+    duration: theme.transitions.duration.leavingScreen,
   }),
-  overflow: "hidden"
+  overflow: "hidden",
 }));
 
 const TopNewRow = ({ post, theme }) => {
@@ -50,7 +50,7 @@ const TopNewRow = ({ post, theme }) => {
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
               width: "100%",
-              overflow: "hidden"
+              overflow: "hidden",
             }}
           >
             {post.title}
@@ -79,7 +79,7 @@ const TopNews = ({ post, theme }) => {
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",
               marginLeft: 8,
-              padding: 0
+              padding: 0,
             }}
           >
             {post.title}
@@ -92,86 +92,89 @@ const TopNews = ({ post, theme }) => {
 
 const NewsArray = (props) => {
   const { posts, typeId } = props;
-  const post = posts.length > 0 ? posts[0] : null;
+  const post = posts && posts.length > 0 ? posts[0] : null;
   return (
-    <Box
-      className="latest-news-box"
-      style={{
-        flexShrink: true
-      }}
-      flexDirection="row"
-    >
-      {post && <TopNewRow post={post} />}
-      <Divider />
-      {posts.map((x, index) => (
-        <div key={`${typeId}_${x.id}`}>
-          <div id="parent-below" className="group-news-box">
-            {index > 0 && (
-              <TopNews
-                id="TopNews"
-                post={x}
-                typeId={typeId}
-                itemHeight={100}
-                // className="group-news-box"
-              />
-            )}
+    post && (
+      <Box
+        className="latest-news-box"
+        style={{
+          flexShrink: true,
+        }}
+        flexDirection="row"
+      >
+        {post && <TopNewRow post={post} />}
+        <Divider />
+        {posts.map((x, index) => (
+          <div key={`${typeId}_${x.id}`}>
+            <div id="parent-below" className="group-news-box">
+              {index > 0 && (
+                <TopNews
+                  id="TopNews"
+                  post={x}
+                  typeId={typeId}
+                  itemHeight={100}
+                  // className="group-news-box"
+                />
+              )}
+            </div>
+            {index !== 0 && index !== posts.length - 1 && <Divider />}
           </div>
-          {index !== 0 && index !== posts.length - 1 && <Divider />}
-        </div>
-      ))}
-    </Box>
+        ))}
+      </Box>
+    )
   );
 };
 
 const ChildView = (props) => {
   const { data } = props;
-  console.log(data);
+  // console.log(data);
   const { t } = useTranslation();
   return (
     <>
       <Typography>{t("page.home.top.news.title")}</Typography>
       <Grid container justifyContent="center" className="GroupTop">
-        {data.map((x) => (
-          <Grid
-            key={x.id}
-            item
-            xl={3}
-            md={4}
-            sm={6}
-            xs={12}
-            style={{
-              borderRadius: "0 0 ",
-              background: "white",
-              marginTop: 4,
-              boxShadow: 12
-            }}
-          >
-            <Box
+        {data &&
+          data.map((x) => (
+            <Grid
+              key={x.id}
+              item
+              xl={3}
+              md={4}
+              sm={6}
+              xs={12}
               style={{
-                margin: 2,
-                borderBottomLeftRadius: 8,
-                borderBottomRightRadius: 8,
-                border: "1px solid gray",
+                borderRadius: "0 0 ",
                 background: "white",
-                height: "98%"
+                marginTop: 4,
+                boxShadow: 12,
               }}
-              flexDirection="row"
             >
-              <Card
+              <Box
                 style={{
-                  background:
-                    "linear-gradient(to right bottom,#82ffa1, #430089)",
-                  borderRadius: "0 0 0 0",
-                  padding: 8,
-                  opacity: 0.8
+                  margin: 2,
+                  borderBottomLeftRadius: 8,
+                  borderBottomRightRadius: 8,
+                  border: "1px solid gray",
+                  background: "white",
+                  height: "98%",
                 }}
+                flexDirection="row"
               >
-                <Typography component="h2">{x.name}</Typography>
-              </Card>
-              <NewsArray posts={x.posts} typeId={x.id} />
-            </Box>
-          </Grid>
-        ))}
+                <Card
+                  style={{
+                    background:
+                      "linear-gradient(to right bottom,#82ffa1, #430089)",
+                    borderRadius: "0 0 0 0",
+                    padding: 8,
+                    opacity: 0.8,
+                  }}
+                >
+                  <Typography component="h2">{x.name}</Typography>
+                </Card>
+                <NewsArray posts={x.posts} typeId={x.id} />
+              </Box>
+            </Grid>
+          ))}
       </Grid>
     </>
   );
@@ -179,28 +182,21 @@ const ChildView = (props) => {
 
 const GroupTop = (props) => {
   const { fetchTop } = props;
-  const [data = [], setData] = useState();
-  // const dispatch = useDispatch();
-  store.subscribe((x) => {
-    const state = store.getState();
-    console.log("state", state);
-    setData(state.post.data);
-  });
+  const dispatch = useDispatch();
   useEffect(() => {
-    fetchTop();
+    dispatch(postActions.fetchTypeTop());
   }, [fetchTop]);
-  console.log("render", data);
+  const data = useSelector((state) => state.post.typeTopNews);
+  // console.log("render", data);
   return <ChildView id="ChildView" data={data} />;
 };
 
 const mapState = (state) => {
-  const { data } = state;
-  // const { user } = authentication;
-  return { data };
+  return { posts: state.post.typeTopNews };
 };
 
 const actionCreators = {
-  fetchTop: postActions.fetchTop
+  fetchTypeTop: postActions.fetchTypeTop,
 };
 const ConnectedGroupTop = connect(mapState, actionCreators)(GroupTop);
 export default ConnectedGroupTop;

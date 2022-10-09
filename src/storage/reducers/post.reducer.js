@@ -1,21 +1,36 @@
-import { postConstants } from "../constants";
+import { apiConstants } from "../constants";
 
-export const post = (state = {}, action) => {
-  console.log("calling to reducer", action);
+const initState = {
+  scheduleDetail: null,
+  timeSlots: null,
+  posts: []
+}
+
+export const post = (state = initState, action) => {
+  // console.log("calling to reducer", action.type);
   switch (action.type) {
-    case postConstants.FETCH_POST_LOADING:
-      return { isLoading: true };
-    case postConstants.SUCCESS:
+    case apiConstants.PROGRESSING:
       return {
-        items: action.data
+        ...state,
+        isLoading: true,
       };
-    case postConstants.ERROR:
+    case apiConstants.COMPLETED:
+      console.log('Reducer SUCCESS', action)
+      const data = {
+        ...state,
+        isLoading: false,
+        posts: action.data
+      };
+      data[action.variable] = action.data
+      return { ...data };
+    case apiConstants.FAILURE:
       return {
+        ...state,
         error: action.error,
-        items: action.data
+        posts: action.data
       };
-    case postConstants.CLEAR:
-      return {};
+    // case postConstants.CLEAR:
+    //   return {};
     default:
       return state;
   }
