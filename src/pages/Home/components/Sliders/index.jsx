@@ -43,16 +43,15 @@ const Slider = (props) => {
   };
   const dispatch = useDispatch();
   const topPost = useSelector((state) => {
-    console.log("check state", state);
     return state.post.topNews;
   });
 
   useEffect(() => {
-    dispatch(postActions.fetchTop);
+    dispatch(postActions.fetchTop());
     // setTopPost(topPost);
   }, [dispatch]);
 
-  console.log("renders", topPost);
+  // console.log("renders", topPost);
   return (
     topPost &&
     topPost.length > 0 && (
@@ -104,7 +103,7 @@ const Slider = (props) => {
                       display: "block",
                       overflow: "hidden",
                       margin: "auto",
-                      width: "100%",
+                      width: "100%"
                     }}
                   />
                 </div>

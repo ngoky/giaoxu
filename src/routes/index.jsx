@@ -4,7 +4,6 @@ import GuestRoutes from "./GuestRoutes";
 import AdminRoutes from "./AdminRoutes";
 
 const ProtectedRouter = ({ user, redirectPath = "/home", children }) => {
-  console.log(user);
   if (!user) {
     return <Navigate to={redirectPath} replace />;
   }
@@ -25,11 +24,6 @@ const Routers = (props) => {
             <Route
               key={`${element.path}`}
               exact={element?.exact || false}
-              // element={
-              //   element.redirect !== "" ?
-              //     <Navigate exact replace to={element.redirect} />
-              //     :<element.component />
-              // }
               path={element.path}
             >
               {element.routers.map((x) => (
