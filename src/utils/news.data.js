@@ -33,7 +33,7 @@ export const fetchTopDefault = () => {
 
 export const newByType = () => {
   const posts = [];
-  for (let i = 0; i < 10; i += 1) {
+  for (let i = 0; i < 20; i += 1) {
     const index = i + 1;
     const type = {
       id: i,

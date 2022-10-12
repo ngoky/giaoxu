@@ -2,23 +2,21 @@ import { fetchTopDefault, newByType } from "../../utils/news.data";
 import { request } from "../http.helper";
 
 const fetchList = ({ param }) => {
-  console.log("call to fetchList");
   const tail = "/news";
   request({ tail, param, method: "GET" }).then(
     ((response) => {
       localStorage.setItem("topNews", response);
       return response;
     },
-      (_) => {
-        console.log("eo bi gi", _);
-        localStorage.setItem("topNews", fetchTopDefault());
-        // return fetchTopDefault();
-      })
+    (_) => {
+      console.log("eo bi gi", _);
+      localStorage.setItem("topNews", fetchTopDefault());
+      // return fetchTopDefault();
+    })
   );
 };
 
 const fetchTop = async () => {
-  console.log("call to fetchTop");
   const tail = "/news";
   return await request({
     tail,
@@ -30,11 +28,11 @@ const fetchTop = async () => {
         // localStorage.setItem("topNews", response);
         return response;
       },
-        (_) => {
-          console.log("eo bi gi", _);
-          // localStorage.setItem("topNews", fetchTopDefault());
-          return fetchTopDefault();
-        })
+      (_) => {
+        console.log("eo bi gi", _);
+        // localStorage.setItem("topNews", fetchTopDefault());
+        return fetchTopDefault();
+      })
     )
     .catch((error) => {
       console.log("oops", error);
@@ -45,7 +43,6 @@ const fetchTop = async () => {
 
 
 const fetchTypeTop = async () => {
-  console.log("call to fetchTop");
   const tail = "/news";
   return await request({
     tail,
@@ -56,10 +53,10 @@ const fetchTypeTop = async () => {
       ((response) => {
         return response;
       },
-        (_) => {
-          //console.log("eo bi gi", _);
-          return newByType();
-        })
+      (_) => {
+        //console.log("eo bi gi", _);
+        return newByType();
+      })
     )
     .catch((error) => {
       return newByType();

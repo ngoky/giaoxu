@@ -1,11 +1,4 @@
-import { Outlet } from "react-router-dom";
-
 const Home = () => {
-  return (
-    <div>
-      <h2>check behavior</h2>
-      <Outlet />
-    </div>
-  );
+  return <div>test</div>;
 };
 export default Home;

@@ -1,9 +1,10 @@
 import { apiConstants } from "../constants";
+import {  } from "../helpers";
 
 const success = (props) => {
-    const { message = '', data = null, variable = null } = { ...props }
-    return { type: apiConstants.COMPLETED, message, data, variable };
-}
+  const { message = "", data = null, variable = null } = { ...props };
+  return { type: apiConstants.COMPLETED, message, data, variable };
+};
 
 const failure = (props) => {
     const { message = '', data = null, variable = null } = { ...props }
@@ -20,10 +21,16 @@ const idle = (props) => {
     return { type: apiConstants.IDLE, message, data, variable };
 }
 
-export const apiAction = {
-    success,
-    processing,
-    failure,
-    idle
+// send for specific key to check in reducer
+const sendAction = (props) => {
+  const { message = "", data = null, variable = null, type } = { ...props };
+  return { type, message, data, variable };
 };
 
+export const apiAction = {
+  success,
+  processing,
+  failure,
+  idle,
+  sendAction
+};

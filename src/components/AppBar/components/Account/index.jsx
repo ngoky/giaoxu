@@ -1,24 +1,31 @@
 import React from "react"
 
 import { Avatar, Box, IconButton, Menu, MenuItem, Toolbar, Tooltip, Typography } from "@mui/material"
-// import MenuIcon from '@mui/icons-material/Menu';
+import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { userActions } from "../../../../storage/actions";
 
-const pages = [{
-  text: 'Tin tức',
-  to: '/news'
-},{
-  text: 'liên hệ',
-  to: '/contact'
-},]
+const Account = (props) => {
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const { t } = useTranslation();
+  const { auth } = props;
 
-const MyMenu = () => {
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
-   
+  const userMenu = t("menus.user-setting", { returnObjects: true }).filter(
+    (x) => x.authorize === (auth !== null)
+  );
+
+  const dispatch = useDispatch();
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (event) => {
+    if (event === "login") {
+      dispatch(userActions.login());
+    } else if (event === "logout") {
+      dispatch(userActions.logout());
+    }
     setAnchorElUser(null);
   };
   return (
@@ -26,34 +33,41 @@ const MyMenu = () => {
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            <Avatar
+              alt="Remy Sharp"
+              src={auth ? auth.avatar : "/static/images/avatar/2.jpg"}
+            />
           </IconButton>
         </Tooltip>
         <Menu
-          sx={{ mt: '45px' }}
+          sx={{ mt: "45px" }}
           id="menu-appbar"
           anchorEl={anchorElUser}
           anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
+            vertical: "top",
+            horizontal: "right"
+          }}
           keepMounted
           transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
+            vertical: "top",
+            horizontal: "right"
+          }}
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
-          {pages.map((setting) => (
-            <MenuItem key={setting.to} onClick={handleCloseUserMenu}>
-              <Typography textAlign="center">{setting.text}</Typography>
-            </MenuItem>
-              ))}
+          {userMenu &&
+            userMenu.map((setting) => (
+              <MenuItem
+                key={setting.to}
+                onClick={() => handleCloseUserMenu(setting.event)}
+              >
+                <Typography textAlign="center">{setting.text}</Typography>
+              </MenuItem>
+            ))}
         </Menu>
       </Box>
     </Toolbar>
-  )
-}
+  );
+};
 
-export default MyMenu
+export default Account;

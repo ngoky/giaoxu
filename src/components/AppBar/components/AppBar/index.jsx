@@ -32,7 +32,7 @@ const AppBar = styled(MuiAppBar, {
   })
 }));
 
-const Menu = ({ check, theme, width }) => {
+const Menu = ({ check, theme, width, auth }) => {
   return (
     <AppBar
       id="AppBar"
@@ -42,8 +42,11 @@ const Menu = ({ check, theme, width }) => {
       width={width}
     >
       <Toolbar id="Toolbar" style={{ minHeight: "60px", maxHeight: "60px" }}>
-        <MyMenu sx={{ width: 100, minHeight: "60px", maxHeight: "60px" }} />
-        <Account />
+        <MyMenu
+          sx={{ width: 100, minHeight: "60px", maxHeight: "60px" }}
+          auth={auth}
+        />
+        <Account auth={auth} />
       </Toolbar>
     </AppBar>
   );

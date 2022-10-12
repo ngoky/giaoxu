@@ -5,15 +5,19 @@ export function alert(state = {}, action) {
     case alertConstants.SUCCESS:
       return {
         type: "alert-success",
+        snakeType: "success",
+        show: Boolean(action.show) || false,
         message: action.message
       };
     case alertConstants.ERROR:
       return {
         type: "alert-danger",
+        snakeType: "error",
+        show: Boolean(action.show) || false,
         message: action.message
       };
     case alertConstants.CLEAR:
-      return {};
+      return { show: false };
     default:
       return state;
   }
