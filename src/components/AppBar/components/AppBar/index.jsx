@@ -1,20 +1,16 @@
 import React from "react";
-import {
-  Toolbar,
-  AppBar as MuiAppBar,
-  styled,
-} from "@mui/material";
+import { Toolbar, AppBar as MuiAppBar, styled } from "@mui/material";
 
-import MyMenu from "../Menu";
-import Account from "../Account";
+import { Account } from "../Account";
+import { MyMenu } from "../Menu";
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open"
+const AppBarStyle = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open, width = 0 }) => ({
   // flexGrow:0,
   transition: theme.transitions.create(["margin", "width"], {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen
+    duration: theme.transitions.duration.leavingScreen,
   }),
   boxShadow: "none",
   // width: "100%",
@@ -26,15 +22,15 @@ const AppBar = styled(MuiAppBar, {
     // marginLeft: `${drawerWidth}px`,
     transition: theme.transitions.create(["margin", "width"], {
       easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen
+      duration: theme.transitions.duration.enteringScreen,
     }),
-    marginLeft: 0
-  })
+    marginLeft: 0,
+  }),
 }));
 
-const Menu = ({ check, theme, width, auth }) => {
+export const AppBar = ({ check, theme, width, auth }) => {
   return (
-    <AppBar
+    <AppBarStyle
       id="AppBar"
       position="relative"
       theme={theme}
@@ -48,7 +44,6 @@ const Menu = ({ check, theme, width, auth }) => {
         />
         <Account auth={auth} />
       </Toolbar>
-    </AppBar>
+    </AppBarStyle>
   );
 };
-export default Menu;

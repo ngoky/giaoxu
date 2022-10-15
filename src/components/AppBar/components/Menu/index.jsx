@@ -7,14 +7,14 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Typography
+  Typography,
 } from "@mui/material";
 import { Menu as MenuIcon } from "@mui/icons-material";
 
 import "./index.scss";
 import { useTranslation } from "react-i18next";
 
-const MyMenu = (props) => {
+export const MyMenu = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [index, setIndex] = React.useState(0);
   // const location = useLocation();
@@ -38,7 +38,7 @@ const MyMenu = (props) => {
 
   useEffect(() => {
     const {
-      location: { pathname }
+      location: { pathname },
     } = window;
     // console.log("call use effect", window.location);
     for (let i = 0; i < pages.length; i += 1) {
@@ -64,17 +64,17 @@ const MyMenu = (props) => {
             anchorEl={anchorElNav}
             anchorOrigin={{
               vertical: "bottom",
-              horizontal: "left"
+              horizontal: "left",
             }}
             keepMounted
             transformOrigin={{
               vertical: "top",
-              horizontal: "left"
+              horizontal: "left",
             }}
             open={Boolean(anchorElNav)}
             onClose={handleCloseNavMenu}
             sx={{
-              display: { xs: "block", sm: "none" }
+              display: { xs: "block", sm: "none" },
             }}
           >
             {pages.map((page, i) => (
@@ -109,7 +109,7 @@ const MyMenu = (props) => {
           sx={{
             mr: 2,
             display: { xs: "flex", sm: "none" },
-            flexGrow: 1
+            flexGrow: 1,
           }}
         >
           <MenuIcon /> Giáo Xứ Vinh An
@@ -139,5 +139,3 @@ const MyMenu = (props) => {
     </Container>
   );
 };
-
-export default MyMenu;

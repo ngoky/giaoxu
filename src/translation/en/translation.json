@@ -26,12 +26,6 @@
         ],
         "user-setting": [
             {
-                "to": "login",
-                "event": "login",
-                "text": "Login",
-                "authorize": false
-            },
-            {
                 "to": "user/profile",
                 "event": "profile",
                 "text": "Setting",

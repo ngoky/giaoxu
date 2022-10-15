@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Box, useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, Navigate } from "react-router-dom";
-import SideMenu from "./components/SideMenu";
+import { SideMenu } from "./components";
 
 const menuWidth = 200;
 const SideMenuParent = styled(Box, {
