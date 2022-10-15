@@ -31,7 +31,6 @@ const App = () => {
     setOpen(mark);
     document.body.style.overflow = mark ? "hidden" : "auto";
   };
-  console.log(<Routers />);
   return (
     // <Suspense fallback="loading">
     <Box display="flex" className="App">
