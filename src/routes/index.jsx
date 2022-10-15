@@ -75,8 +75,8 @@ const Routers = (props) => {
                       </ProtectedRouter>
                     }
                   >
-                    {x.children &&
-                      x.children.map((sub) => (
+                    {x.routers &&
+                      x.routers.map((sub) => (
                         <Route
                           key={`${element.path}${sub.path}`}
                           path={sub.path}

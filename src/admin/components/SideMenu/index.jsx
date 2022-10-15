@@ -29,7 +29,7 @@ const navData = [
     link: `${adminUrl}/types`,
   },
 ];
-const SideMenu = (props) => {
+export const SideMenu = (props) => {
   const { open = false } = props;
   const urlPath = useLocation();
   const [index, setIndex] = useState(0);
@@ -63,5 +63,3 @@ const SideMenu = (props) => {
     </div>
   );
 };
-
-export default SideMenu;

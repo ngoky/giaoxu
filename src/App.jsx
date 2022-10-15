@@ -2,7 +2,6 @@ import { useTheme, Box, Button } from "@mui/material";
 import React, { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { MenuOpen, Menu } from "@mui/icons-material";
-import MyMenu from "./components/AppBar/components/AppBar";
 import Banner from "./components/Banner";
 import Routers from "./routes";
 import { userActions } from "./storage/actions";
@@ -15,6 +14,7 @@ import MenuLayout from "./components/MenuButton";
 import "./translation/i18n";
 import Notification from "./components/Notification";
 import { userHelper } from "./storage/helpers";
+import { AppBar } from "./components";
 
 const drawerWidth = 240;
 const menuButtonWidth = 40;
@@ -51,7 +51,7 @@ const App = () => {
               height="100px"
             />
           </Banner>
-          <MyMenu theme={theme} open={open} auth={auth} />
+          <AppBar theme={theme} open={open} auth={auth} />
         </header>
         <div
           className="content"
