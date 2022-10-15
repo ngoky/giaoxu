@@ -14,9 +14,12 @@ const ProtectedRouter = ({ user, redirectPath = "/home", children }) => {
 const Routers = (props) => {
   const { auth } = props;
   const authRouters = AdminRoutes(auth);
-  // console.log("Routers", auth);
+  // const routes = useRoutes([...GuestRoutes, ...authRouters]);
+  // routes.Routers(GuestRoutes);
+  // console.log("Routers", routes);
   return (
     <Routes>
+      {/* <Route {...routes}></Route> */}
       {/* <GuestRoute data={GuestRoutes} /> */}
       {GuestRoutes.map((element) => {
         return (
@@ -60,31 +63,48 @@ const Routers = (props) => {
                 </ProtectedRouter>
               }
             >
-              {element.routers.map((x) => (
-                <Route
-                  key={`${element.path}${x.path}`}
-                  exact={element?.exact || false}
-                  path={x.path}
-                  element={
-                    <ProtectedRouter user={auth}>
-                      <x.component />
-                    </ProtectedRouter>
-                  }
-                >
-                  {x.children &&
-                    x.children.map((sub) => (
-                      <Route
-                        key={`${element.path}${sub.path}`}
-                        path={sub.path}
-                        element={
-                          <ProtectedRouter user={auth}>
-                            <sub.component />
-                          </ProtectedRouter>
-                        }
-                      />
-                    ))}
-                </Route>
-              ))}
+              {element.routers &&
+                element.routers.map((x) => (
+                  <Route
+                    key={`${element.path}${x.path}`}
+                    exact={element?.exact || false}
+                    path={x.path}
+                    element={
+                      <ProtectedRouter user={auth}>
+                        <x.component />
+                      </ProtectedRouter>
+                    }
+                  >
+                    {x.children &&
+                      x.children.map((sub) => (
+                        <Route
+                          key={`${element.path}${sub.path}`}
+                          path={sub.path}
+                          element={
+                            <ProtectedRouter user={auth}>
+                              <sub.component />
+                            </ProtectedRouter>
+                          }
+                        >
+                          {sub.routers &&
+                            sub.routers.map((lv3) => {
+                              console.log(lv3);
+                              return (
+                                <Route
+                                  key={`${sub.path}${lv3.path}`}
+                                  path={lv3.path}
+                                  element={
+                                    <ProtectedRouter user={auth}>
+                                      <lv3.component />
+                                    </ProtectedRouter>
+                                  }
+                                />
+                              );
+                            })}
+                        </Route>
+                      ))}
+                  </Route>
+                ))}
             </Route>
           )
         );
