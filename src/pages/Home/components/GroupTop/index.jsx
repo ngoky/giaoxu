@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Box,
@@ -17,7 +17,6 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import "./index.scss";
 import { postActions } from "../../../../storage/actions";
 import { connect, useDispatch, useSelector } from "react-redux";
-import { store } from "../../../../storage/helpers";
 
 const Item = styled(Container, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -180,12 +179,11 @@ const ChildView = (props) => {
   );
 };
 
-const GroupTop = (props) => {
-  const { fetchTop } = props;
+const GroupTop = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(postActions.fetchTypeTop());
-  }, [fetchTop]);
+  }, [dispatch]);
   const data = useSelector((state) => state.post.typeTopNews);
   // console.log("render", data);
   return <ChildView id="ChildView" data={data} />;

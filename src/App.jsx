@@ -27,10 +27,11 @@ const App = () => {
     userHelper.auth() ||
     null;
 
-  const openHander = (mark) => {
+  const openHandler = (mark) => {
     setOpen(mark);
     document.body.style.overflow = mark ? "hidden" : "auto";
   };
+  console.log(<Routers />);
   return (
     // <Suspense fallback="loading">
     <Box display="flex" className="App">
@@ -38,7 +39,7 @@ const App = () => {
         theme={theme}
         width={drawerWidth}
         open={open}
-        handleDrawer={openHander}
+        handleDrawer={openHandler}
       />
       <Display theme={theme} open={open} width={drawerWidth}>
         <header className="App-header">
@@ -57,7 +58,7 @@ const App = () => {
           style={{
             position: "relative",
             margin: `0 ${menuButtonWidth}px 0 ${menuButtonWidth}px`,
-            overflow: "hidden"
+            overflow: "hidden",
           }}
         >
           <BrowserRouter>
@@ -78,16 +79,16 @@ const App = () => {
           display: "flex",
           opacity: 0.8,
           textAlign: "center",
-          scrollBehavior: "unset"
+          scrollBehavior: "unset",
         }}
       >
         <Button
-          onClick={() => openHander(!open)}
+          onClick={() => openHandler(!open)}
           style={{
             background: `${open ? "blue" : "transparent"}`,
             maxWidth: `${menuButtonWidth}px`,
             minWidth: `${menuButtonWidth}px`,
-            padding: 0
+            padding: 0,
           }}
           title="open menu"
         >
@@ -106,7 +107,7 @@ const mapState = (state) => {
 };
 
 const actionCreators = {
-  login: userActions.login
+  login: userActions.login,
 };
 
 const ConnectedApp = connect(mapState, actionCreators)(App);

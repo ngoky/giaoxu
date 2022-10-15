@@ -1,133 +1,113 @@
-import * as React from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import { Pagination } from "@mui/material";
-import TableRow from "@mui/material/TableRow";
+import { Add } from "@mui/icons-material";
+import { Fab } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import Tables from "../../../../components/Tables";
+import "./index.scss";
 
-const columns = [
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
-  {
-    id: "population",
-    label: "Population",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US")
-  },
-  {
-    id: "size",
-    label: "Size\u00a0(km\u00b2)",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US")
-  },
-  {
-    id: "density",
-    label: "Density",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toFixed(2)
-  }
-];
-const rows = [
-  createData("India", "IN", 1324171354, 3287263),
-  createData("China", "CN", 1403500365, 9596961),
-  createData("Italy", "IT", 60483973, 301340),
-  createData("United States", "US", 327167434, 9833520),
-  createData("Canada", "CA", 37602103, 9984670),
-  createData("Australia", "AU", 25475400, 7692024),
-  createData("Germany", "DE", 83019200, 357578),
-  createData("Ireland", "IE", 4857000, 70273),
-  createData("Mexico", "MX", 126577691, 1972550),
-  createData("Japan", "JP", 126317000, 377973),
-  createData("France", "FR", 67022000, 640679),
-  createData("United Kingdom", "GB", 67545757, 242495),
-  createData("Russia", "RU", 146793744, 17098246),
-  createData("Nigeria", "NG", 200962417, 923768),
-  createData("Brazil", "BR", 210147125, 8515767)
-];
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
+function createData(id, name, calories, fat, carbs, protein) {
+  return {
+    id,
+    name,
+    calories,
+    fat,
+    carbs,
+    protein,
+  };
 }
-const createBunches = () => {
-  const bunches = [];
-  for (let i = 0; i < 10; i += 1) {
-    for (let j = 0; j < rows.length; j += 1) {
-      const obj = rows[j];
-      obj.name = `${obj.name} ${i}`;
-      bunches.push(obj);
-    }
+
+const createList = () => {
+  const list = [];
+  for (let i = 0; i < 22; i += 1) {
+    list.push(createData(i + 1, `Oreo ${i}`, 437 * i, 18.0 / i, 63, 4.0));
   }
-  return bunches;
+  return list;
 };
 
-export default function StickyHeadTable() {
-  const [page, setPage] = React.useState(1);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const rows = createBunches();
+const headCellsDefault = [
+  {
+    id: "name",
+    numeric: false,
+    disablePadding: true,
+    label: "Dessert (100g serving)",
+  },
+  {
+    id: "calories",
+    numeric: true,
+    disablePadding: false,
+    label: "Calories",
+  },
+  {
+    id: "fat",
+    numeric: true,
+    disablePadding: false,
+    label: "Fat (g)",
+  },
+  {
+    id: "carbs",
+    numeric: true,
+    disablePadding: false,
+    label: "Carbs (g)",
+  },
+  {
+    id: "protein",
+    numeric: true,
+    disablePadding: false,
+    label: "Protein (g)",
+  },
+];
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
-  let pageCount = Math.floor(rows.length / rowsPerPage) + 1;
-  const remain = rows.length % rowsPerPage;
-  if (remain > 0) {
-    pageCount += remain;
-  }
-
+export default function EnhancedTable(props) {
+  const { rows = createList() } = props;
+  const navigate = useNavigate();
+  // const [open, setOpen] = useState(false);
+  // const handleOpen = () => setOpen(true);
+  // const handleClose = () => setOpen(false);
+  console.log("render");
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === "number"
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Pagination
-        component="div"
-        count={pageCount}
-        defaultPage={1}
-        // rowsPerPage={rowsPerPage}
-        page={page}
-        onChange={handleChangePage}
-      />
-    </Paper>
+    <div className="NewsTable">
+      <Tables rows={rows} headCells={headCellsDefault} />
+      <Fab
+        color="secondary"
+        style={{
+          margin: 0,
+          top: "auto",
+          right: 20,
+          bottom: 20,
+          left: "auto",
+          position: "fixed",
+        }}
+        onClick={() => navigate("add")}
+        aria-label="add"
+      >
+        <Add />
+      </Fab>
+      {/* <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box style={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Text in a modal
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </Typography>
+        </Box>
+      </Modal> */}
+    </div>
   );
 }
