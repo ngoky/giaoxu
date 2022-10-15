@@ -18,6 +18,49 @@
                 "text": "Admin",
                 "authorize": true
             }
+        ],
+        "user-setting": [
+            {
+                "to": "login",
+                "event": "login",
+                "text": "Login",
+                "authorize": false
+            },
+            {
+                "to": "user/profile",
+                "event": "profile",
+                "text": "Setting",
+                "authorize": true
+            },
+            {
+                "to": "user/detail",
+                "event": "detail",
+                "text": "detail",
+                "authorize": true
+            },
+            {
+                "to": "user/logout",
+                "event": "logout",
+                "text": "Logout",
+                "authorize": true
+            }
+        ],
+        "admin": [
+            {
+                "key": "news",
+                "icon": "login",
+                "text": "Tin tức"
+            },
+            {
+                "key": "types",
+                "icon": "login",
+                "text": "Thể loại"
+            },
+            {
+                "key": "users",
+                "icon": "login",
+                "text": "Thành Viên"
+            }
         ]
     }
 }

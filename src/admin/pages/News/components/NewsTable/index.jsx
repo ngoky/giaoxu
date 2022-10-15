@@ -86,9 +86,9 @@ export default function EnhancedTable(props) {
           right: 20,
           bottom: 20,
           left: "auto",
-          position: "fixed",
+          position: "fixed"
         }}
-        onClick={() => navigate("add")}
+        onClick={() => navigate("/admin/news/add")}
         aria-label="add"
       >
         <Add />

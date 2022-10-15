@@ -43,6 +43,35 @@
                 "text": "Logout",
                 "authorize": true
             }
+        ],
+        "admin": [
+            {
+                "key": "news",
+                "icon": "login",
+                "text": "Login",
+                "authorize": false
+            },
+            {
+                "key": "types",
+                "icon": "login",
+                "text": "Login",
+                "authorize": false
+            },
+            {
+                "key": "users",
+                "icon": "login",
+                "text": "Login",
+                "authorize": false
+            }
         ]
+    },
+    "admin": {
+        "pages": {
+            "news": {
+                "edit": {
+                    "news-title": "Title"
+                }
+            }
+        }
     }
 }

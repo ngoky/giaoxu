@@ -1,0 +1,40 @@
+.EditNews {
+    .news-info {
+        // background: red;
+
+        // margin: 4px;
+        .box-title {
+            align-items: flex-start;
+            margin-top: 1vh;
+
+            .text-title {
+                display: flex;
+                justify-content: flex-start;
+                height: 9vh;
+                line-height: 9vh;
+                align-items: flex-start;
+            }
+        }
+
+        .edit-text-box {
+            width: 100%;
+            margin-top: 1vh;
+            // background: red;
+
+            .edit-text {
+                display: flex;
+                width: 100%;
+                margin-top: auto;
+                margin-bottom: auto;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+
+            .edit-text div {
+                width: 100%;
+            }
+        }
+
+    }
+
+}
