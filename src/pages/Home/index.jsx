@@ -4,17 +4,19 @@ import React from "react";
 import Body from "../../components/Body";
 import Slider from "./components/Sliders";
 import GroupTop from "./components/GroupTop";
+import { AppHeader } from '../../components'
 
 const Home = () => {
   const theme = useTheme();
   return (
-    <Box>
-      <Body theme={theme} display="flex">
-        <Slider theme={theme} />
-        <GroupTop />
-      </Body>
-    </Box>
-  );
+      <Box>
+          <Body theme={theme} display="flex">
+              <AppHeader />
+              <Slider theme={theme} />
+              <GroupTop />
+          </Body>
+      </Box>
+  )
 };
 
 export default Home;

@@ -12,31 +12,32 @@ export const userActions = {
   delete: _delete
 };
 
-function login(username = "ky.ngo", password = "123456") {
-  console.log("call login");
-  return (dispatch) => {
-    dispatch(apiAction.processing());
-    const data = { username, password };
-    userService.login({ data }).then(
-      (data) => {
-        dispatch(
-          apiAction.success({
-            message: "Login succesfully",
-            data,
-            variable: "loginUser"
-          })
-        );
-        userHelper.saveAuthentication(data);
-        dispatch(alertActions.success("Login succesfully", true));
-        // history.push("/");
-      },
-      (error) => {
-        userHelper.saveAuthentication();
-        dispatch(apiAction.failure(error.toString()));
-        dispatch(alertActions.error(error.toString(), true));
-      }
-    );
-  };
+function login(data) {
+    console.log('call login')
+    return (dispatch) => {
+      dispatch(apiAction.processing())
+        // const data = { username, password };
+      userService.login({ data })
+        .then(
+            (data) => {
+                dispatch(
+                    apiAction.success({
+                        message: 'Login succesfully',
+                        data,
+                        variable: 'loginUser',
+                    })
+                )
+                userHelper.saveAuthentication(data)
+                dispatch(alertActions.success('Login succesfully', true))
+                // history.push("/");
+            },
+            (error) => {
+                userHelper.saveAuthentication()
+                dispatch(apiAction.failure(error.toString()))
+                dispatch(alertActions.error(error.toString(), true))
+            }
+        )
+    }
 }
 
 function logout() {

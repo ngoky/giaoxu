@@ -7,6 +7,7 @@ import { newDetail } from "../../utils/news.data";
 import "./index.scss";
 import ShareButtons from "./components/ShareButtons";
 import ShortInfo from "./components/ShortInfo";
+import { AppHeader } from "../../components";
 // const old = false
 const News = () => {
   const { id } = useParams();
@@ -28,6 +29,7 @@ const News = () => {
     data && (
       <Box sx={{ display: "flex" }} className="News">
         <Body theme={theme} width={drawerWidth}>
+          <AppHeader />
           <Grid container>
             <Grid item xs={12} sm={6} md={6} display="flex">
               <Card

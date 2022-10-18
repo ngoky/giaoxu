@@ -1,7 +1,5 @@
 import EnhancedTable from "../NewsTable";
 
-const NewsList = () => {
+export const NewsList = () => {
   return <EnhancedTable />;
 };
-
-export default NewsList;

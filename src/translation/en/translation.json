@@ -1,9 +1,11 @@
 {
+    "appName": "Vinh An Parish",
     "page": {
         "home": {
             "top.news.title": "Latest New"
         }
     },
+    
     "menus": {
         "navbar": [
             {
@@ -63,13 +65,43 @@
                 "text": "Login",
                 "authorize": false
             }
+        ],
+        "site-map-text": [
+            {
+                "to": "home",
+                "text": "Vinh An Parish"
+            },
+            {
+                "to": "news",
+                "text": "News"
+            },
+            {
+                "to": "list",
+                "text": "List"
+            },
+            {
+                "to": "contact",
+                "text": "Contact"
+            },
+            {
+                "to": "admin",
+                "text": "Admin"
+            },
+            {
+                "to": "add",
+                "text": "Add"
+            }
         ]
     },
     "admin": {
         "pages": {
             "news": {
                 "edit": {
-                    "news-title": "Title"
+                    "overlay": {
+                        "news-title": "Title",
+                        "news-subject": "Subject",
+                        "news-summary": "Summary"
+                    }
                 }
             }
         }
