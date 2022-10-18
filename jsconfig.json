@@ -1,0 +1,26 @@
+{
+    "extends": "./jsconfig.path.json",
+    "compilerOptions": {
+        "baseUrl": "./src",
+        "paths": {
+            "@/components/*": [
+                "./components/*"
+            ],
+            "@/pages/*": [
+                "./pages/*"
+            ],
+            "@/admin/*": [
+                "./admin/*"
+            ],
+            "@/constants/*": [
+                "./constants/*"
+            ]
+        }
+    },
+    "include": [
+        "./src"
+    ],
+    "exclude": [
+        "./node_modules"
+    ]
+}

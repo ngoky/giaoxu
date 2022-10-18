@@ -1,5 +1,3 @@
-const Types = () => {
-  return <div>Admin- Type</div>;
-};
-
-export default Types;
+export const Types = () => {
+    return <div>Admin- Type</div>
+}
