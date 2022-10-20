@@ -1,5 +1,5 @@
 import EnhancedTable from "../NewsTable";
 
 export const NewsList = () => {
-  return <EnhancedTable />;
+  return <EnhancedTable />
 };

@@ -23,7 +23,7 @@
             "@hooks/*": [
                 "src/hooks/*"
             ],
-            "@constants/*": [
+            "@/constants/*": [
                 "src/constants/*"
             ],
             "@/pages/*": [

@@ -1,0 +1,22 @@
+.Table {
+    width: 2000px;
+
+    .action-item-box {
+        place-content: center;
+        display: grid;
+    }
+
+    .actionButton {}
+
+    .actionLink {
+        text-decoration: none;
+    }
+
+    .sticky {
+        position: sticky;
+        right: 0;
+        background: white;
+        box-shadow: 5px 2px 5px grey;
+        border-left: 2px solid black;
+    }
+}
