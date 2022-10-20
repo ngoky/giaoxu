@@ -1,12 +1,14 @@
 .DragAndDrop {
     display: flex;
-    min-height: 100vh;
+    min-height: 28vh;
     height: auto;
+    width: 100%;
     flex-direction: column;
     justify-content: center;
+    place-content: center;
     align-items: center;
 
-    .form-file-upload {
+    #form-file-upload {
         height: 16rem;
         width: 28rem;
         max-width: 100%;
@@ -56,5 +58,15 @@
         right: 0px;
         bottom: 0px;
         left: 0px;
+    }
+}
+
+.RightView {
+    height: 16rem;
+    width: 28rem;
+    max-width: 100%;
+
+    img {
+        width: 100%;
     }
 }

@@ -270,13 +270,15 @@ export default function Tables(props) {
         setPage(0)
     }
     const ActionView = (props) => {
-        const { actions } = props
+        const { actions, id } = props
         return (
             <Box display="inline-flex">
-                {actions.map((x) => (
-                    <div key={x.lable} className="action-item-box">
+                {actions.map((x, index) => (
+                    <div key={index} className="action-item-box">
                         {x.type === tableConstants.ACTION_TYPE.BUTTON && (
-                            <Button onClick={x.handler}>{x.label}</Button>
+                            <Button id={id} onClick={x.handler}>
+                                {x.label}
+                            </Button>
                         )}
                         {x.type === tableConstants.ACTION_TYPE.LINK && (
                             <Typography
@@ -388,6 +390,7 @@ export default function Tables(props) {
                                                     className="sticky"
                                                 >
                                                     <ActionView
+                                                        id={row.id}
                                                         actions={actions}
                                                     />
                                                 </TableCell>

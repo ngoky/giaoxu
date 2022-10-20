@@ -1,6 +1,6 @@
-import { Add } from "@mui/icons-material";
-import { Fab } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Add } from '@mui/icons-material'
+import { Fab } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 import { tableConstants } from '@/constants'
 import Tables from '../../../../components/Tables'
 import './index.scss'
@@ -74,20 +74,28 @@ export default function EnhancedTable(props) {
     const navigate = useNavigate()
     const editHandler = (e) => {
         e.stopPropagation()
-        console.log('test')
+        console.log('test', e.target.id)
+        navigate(`/admin/news/${e.target.id}`)
     }
+    // const navigatePage = (e) => {
+    //     e.stopPropagation()
+    //     console.log('test')
+    // }
     const actions = [
         {
+            id: 1,
             type: tableConstants.ACTION_TYPE.BUTTON,
             handler: editHandler,
             label: 'Edit'
         },
         {
+            id: 2,
             type: tableConstants.ACTION_TYPE.BUTTON,
             handler: editHandler,
             label: 'View'
         },
         {
+            id: 3,
             type: tableConstants.ACTION_TYPE.LINK,
             handler: '/home',
             label: 'View'
