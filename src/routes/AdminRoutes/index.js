@@ -14,6 +14,7 @@ const AdminRouter = (auth) => {
                     routers: [
                         { path: 'list', component: NewsList },
                         { path: 'add', component: EditNews },
+                        { path: ':id', component: EditNews },
                         { path: 'update', component: EditNews }
                     ]
                 },

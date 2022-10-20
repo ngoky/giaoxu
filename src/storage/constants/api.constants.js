@@ -3,4 +3,6 @@ export const apiConstants = {
   PROGRESSING: "PROGRESSING",
   COMPLETED: "COMPLETED",
   FAILURE: "FAILURE",
+  CLEAR: "CLEAR",
+  MODIFY_OBJ: "MODIFY_OBJ"
 };

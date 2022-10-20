@@ -3,7 +3,8 @@ import { apiConstants, postConstants } from "../constants";
 const initState = {
   scheduleDetail: null,
   timeSlots: null,
-  posts: []
+  posts: [],
+  newDetail: {}
 };
 
 export const post = (state = initState, action) => {
@@ -24,22 +25,28 @@ export const post = (state = initState, action) => {
         ...state,
         error: action.error
       };
+    case apiConstants.CLEAR:
+      returnData[action.variable] = {}
+      return { ...returnData };
+    case apiConstants.MODIFY_OBJ:
+      returnData[action.variable] = action.data
+      return { ...returnData };
     // case postConstants.CLEAR:
     //   return {};
-    case postConstants.FETCH_TYPE_TOP_POST_REQUEST:
-    case postConstants.FETCH_TOP_POST_REQUEST:
-      return {
-        ...state,
-        isLoading: true
-      };
-    case postConstants.FETCH_TYPE_TOP_POST_COMPLETED:
-      console.log("Reducer SUCCESS", action);
-      returnData[action.variable] = action.data;
-      return { ...returnData };
-    case postConstants.FETCH_TOP_POST_COMPLETED:
-      console.log("Reducer SUCCESS", action);
-      returnData[action.variable] = action.data;
-      return { ...returnData };
+    // case postConstants.FETCH_TYPE_TOP_POST_REQUEST:
+    // case postConstants.FETCH_TOP_POST_REQUEST:
+    //   return {
+    //     ...state,
+    //     isLoading: true
+    //   };
+    // case postConstants.FETCH_TYPE_TOP_POST_COMPLETED:
+    //   console.log("Reducer SUCCESS", action);
+    //   returnData[action.variable] = action.data;
+    //   return { ...returnData };
+    // case postConstants.FETCH_TOP_POST_COMPLETED:
+    //   console.log("Reducer SUCCESS", action);
+    //   returnData[action.variable] = action.data;
+    //   return { ...returnData };
     default:
       return state;
   }

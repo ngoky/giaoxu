@@ -1,4 +1,4 @@
-import { fetchTopDefault, newByType } from "../../utils/news.data";
+import { fetchTopDefault, newByType, newDetail } from "../../utils/news.data";
 import { request } from "../http.helper";
 
 const fetchList = ({ param }) => {
@@ -8,11 +8,11 @@ const fetchList = ({ param }) => {
       localStorage.setItem("topNews", response);
       return response;
     },
-    (_) => {
-      console.log("eo bi gi", _);
-      localStorage.setItem("topNews", fetchTopDefault());
-      // return fetchTopDefault();
-    })
+      (_) => {
+        console.log("eo bi gi", _);
+        localStorage.setItem("topNews", fetchTopDefault());
+        // return fetchTopDefault();
+      })
   );
 };
 
@@ -28,11 +28,11 @@ const fetchTop = async () => {
         // localStorage.setItem("topNews", response);
         return response;
       },
-      (_) => {
-        console.log("eo bi gi", _);
-        // localStorage.setItem("topNews", fetchTopDefault());
-        return fetchTopDefault();
-      })
+        (_) => {
+          console.log("eo bi gi", _);
+          // localStorage.setItem("topNews", fetchTopDefault());
+          return fetchTopDefault();
+        })
     )
     .catch((error) => {
       console.log("oops", error);
@@ -42,29 +42,29 @@ const fetchTop = async () => {
 };
 
 
-const fetchTypeTop = async () => {
-  const tail = "/news";
+const fetchDetail = async (id) => {
+  const tail = "/news/:id";
   return await request({
     tail,
-    param: { limit: 10, page: 1 },
+    param: id,
     method: "GET"
   })
     .then(
       ((response) => {
         return response;
       },
-      (_) => {
-        //console.log("eo bi gi", _);
-        return newByType();
-      })
+        (_) => {
+          //console.log("eo bi gi", _);
+          return newDetail(id);
+        })
     )
     .catch((error) => {
-      return newByType();
+      return newDetail(id);
     });
 };
 
 export const postService = {
   fetchList,
   fetchTop,
-  fetchTypeTop
+  fetchDetail
 };

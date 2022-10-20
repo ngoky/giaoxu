@@ -61,8 +61,10 @@ export const newDetail = (id) => {
   return {
     ...post,
     title:
-      "ha ha thiệt ko thể tin nổi very very very very long text long long text",
-    id,
+      `ha ha thiệt ko thể tin nổi very very very very long text long long text ${id}`,
+    id: id,
+    content: `${id} ${post.content}`,
+    summary: `${id} ${post.summary}`,
     photo: images[images.length - 1],
     createdAt: "2022-09-24T17:05:33",
     updatedAt: "2022-09-24T17:05:33",

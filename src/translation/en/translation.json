@@ -5,7 +5,6 @@
             "top.news.title": "Latest New"
         }
     },
-    
     "menus": {
         "navbar": [
             {
@@ -98,6 +97,7 @@
             "news": {
                 "edit": {
                     "overlay": {
+                        "page-title": "Create news",
                         "news-title": "Title",
                         "news-subject": "Subject",
                         "news-summary": "Summary"

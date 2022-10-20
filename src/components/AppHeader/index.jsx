@@ -41,7 +41,7 @@ export const AppHeader = () => {
             </div>
             {realObjects.map(
                 (x, index) =>
-                    x.text && (
+                    x.displayText && (
                         <div
                             className="container"
                             key={x.url}
