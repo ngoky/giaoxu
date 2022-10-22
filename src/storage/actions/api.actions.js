@@ -23,9 +23,9 @@ const idle = (props) => {
 
 // send for specific key to check in reducer
 const sendAction = (props) => {
-  console.log('sendAction', props)
-  const { message = "", data = null, variable = null, type } = { ...props };
-  return { type, message, data, variable };
+  console.log('sendAction', { props })
+  const { message = '', data = null, variable = null, type } = { ...props }
+  return { ...props }
 };
 
 export const apiAction = {

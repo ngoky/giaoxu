@@ -6,7 +6,7 @@ import './index.scss'
 import { DragDropFile } from '@/components'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { connect, shallowEqual, useDispatch, useSelector } from 'react-redux'
 import { apiAction, postActions } from 'storage/actions'
 import { apiConstants } from 'storage/constants'
 import _ from 'lodash'
@@ -95,49 +95,21 @@ export const EditNewsView = () => {
             }
         }
     }
-    const modules = useMemo(
-        () => ({
-            toolbar: {
-                container: [
-                    [{ header: [1, 2, false] }],
-                    ['bold', 'italic', 'underline'],
-                    [{ list: 'ordered' }, { list: 'bullet' }],
-                    ['image', 'code-block']
-                ],
-                handlers: {
-                    image: selectLocalImage
-                }
-            }
-        }),
-        []
-    )
+
     const dispatch = useDispatch()
     const data =
         useSelector((state) => {
+            console.log('test: ', state.post.newDetail.summary)
             return id && !_.isEmpty(state.post.newDetail)
                 ? state.post.newDetail
                 : null
-        }) || initialState
+        }, shallowEqual) || initialState
 
     useEffect(() => {
         if (id) {
             dispatch(postActions.fetchDetail(id))
         }
-        // else {
-        //     dispatch(
-        //         apiAction.sendAction({
-        //             type: apiConstants.CLEAR,
-        //             variable: 'newDetail'
-        //         })
-        //     )
-        // }
     }, [dispatch, id])
-
-    // useSelector((state) => {
-    //     const t =
-    //         id && !_.isEmpty(state.post.newDetail) ? state.post.newDetail : null
-    //     setData(t)
-    // }, [])
 
     // setData(haiz)
 
@@ -154,9 +126,8 @@ export const EditNewsView = () => {
     const summary = t('admin.pages.news.edit.overlay.news-summary')
 
     const onChangeHandler = (e) => {
-        console.log(e.target.name)
-        console.log(e.target.id, e.target.value)
         data[e.target.id] = e.target.value
+        // console.log('onChangeHandler', e.target.value)
         dispatch(
             apiAction.sendAction({
                 type: apiConstants.MODIFY_OBJ,
@@ -168,18 +139,34 @@ export const EditNewsView = () => {
     const onSubmit = () => {
         console.log('submit')
     }
-    console.log('render data', data)
-
-    useEffect(
-        () => () => {
-            apiAction.sendAction({
-                type: apiConstants.CLEAR,
-                variable: 'newDetail'
-            })
-            console.log('unmount')
-        },
+    console.log('render data', data.summary)
+    const modules = useMemo(
+        () => ({
+            toolbar: {
+                container: [
+                    [{ header: [1, 2, false] }],
+                    ['bold', 'italic', 'underline'],
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                    ['image', 'code-block']
+                ],
+                handlers: {
+                    image: selectLocalImage
+                }
+            }
+        }),
         []
     )
+
+    // useEffect(
+    //     () => () => {
+    //         apiAction.sendAction({
+    //             type: apiConstants.CLEAR,
+    //             variable: 'newDetail'
+    //         })
+    //         console.log('unmount')
+    //     },
+    //     []
+    // )
 
     return (
         <Box
@@ -200,10 +187,10 @@ export const EditNewsView = () => {
                         <Field
                             name="title"
                             id="title"
-                            component={TextField}
                             label={title}
-                            defaultValue={data.title}
-                            // value={data.title}
+                            component={TextField}
+                            // defaultValue={data.title}
+                            value={data.title}
                             type="text"
                             // onChange={onChangeHandler}
                             variant="outlined"
@@ -212,6 +199,22 @@ export const EditNewsView = () => {
                         />
                         <div>{data.title}</div>
                     </Grid>
+                    {/* <Grid item xs={12} display="flex" className="edit-text-box">
+                        <TextField
+                            name="title"
+                            id="title"
+                            // component={TextField}
+                            label={title}
+                            // defaultValue={data.title}
+                            value={data.title}
+                            type="select"
+                            // onChange={onChangeHandler}
+                            variant="outlined"
+                            required
+                            className="edit-text"
+                        />
+                        <div>{data.title}</div>
+                    </Grid> */}
                     <Grid
                         item
                         xs={12}
@@ -227,7 +230,7 @@ export const EditNewsView = () => {
                             label={summary}
                             // value={data.summary}
                             type="text"
-                            defaultValue={data.summary}
+                            // defaultValue={data.summary}
                             // onChange={onChangeHandler}
                             multiline
                             rows={4}
@@ -243,7 +246,11 @@ export const EditNewsView = () => {
                 </Grid>
             </form>
             <Divider />
-            <ReactQuill modules={modules} ref={quillRef} value={data.content} />
+            <ReactQuill
+                //modules={modules}
+                ref={quillRef}
+                value={data.content}
+            />
             <Divider />
             <Box display="inline-flex" className="action-buttons-box">
                 <Button>Cancel</Button>
@@ -253,8 +260,7 @@ export const EditNewsView = () => {
     )
 }
 const mapState = (state) => {
-    const { post: newDetail } = state
-    return newDetail
+    return state.post.newDetail
 }
 
 const actionCreators = {
