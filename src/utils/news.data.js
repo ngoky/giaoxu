@@ -63,6 +63,7 @@ export const newDetail = (id) => {
     title:
       `ha ha thiệt ko thể tin nổi very very very very long text long long text ${id}`,
     id: id,
+    type: id,
     content: `${id} ${post.content}`,
     summary: `${id} ${post.summary}`,
     photo: images[images.length - 1],
@@ -73,6 +74,6 @@ export const newDetail = (id) => {
       name: "ABC",
       title: "administrator"
     },
-    type: { id: 12, name: "Type of days" }
+    // type: { id: 12, name: "Type of days" }
   };
 };

@@ -62,11 +62,17 @@
 }
 
 .RightView {
-    height: 16rem;
-    width: 28rem;
-    max-width: 100%;
+    display: flex;
+    min-height: 28vh;
+    height: auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
 
     img {
+        margin: auto;
         width: 100%;
+        max-width: 100%;
+        max-height: 16rem;
     }
 }

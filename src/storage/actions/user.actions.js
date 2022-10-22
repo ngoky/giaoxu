@@ -1,3 +1,4 @@
+import { userReducer } from "storage/reducers";
 import { userConstants } from "../constants";
 import { userHelper } from "../helpers";
 import { userService } from "../services";
@@ -13,36 +14,37 @@ export const userActions = {
 };
 
 function login(data) {
-    console.log('call login')
-    return (dispatch) => {
-      dispatch(apiAction.processing())
-        // const data = { username, password };
-      userService.login({ data })
-        .then(
-            (data) => {
-                dispatch(
-                    apiAction.success({
-                        message: 'Login succesfully',
-                        data,
-                        variable: 'loginUser',
-                    })
-                )
-                userHelper.saveAuthentication(data)
-                dispatch(alertActions.success('Login succesfully', true))
-                // history.push("/");
-            },
-            (error) => {
-                userHelper.saveAuthentication()
-                dispatch(apiAction.failure(error.toString()))
-                dispatch(alertActions.error(error.toString(), true))
-            }
-        )
-    }
+  console.log('call login')
+  return (dispatch) => {
+    dispatch(apiAction.processing())
+    // const data = { username, password };
+    userService.login({ data })
+      .then(
+        (data) => {
+          dispatch(
+            apiAction.success({
+              message: 'Login succesfully',
+              data,
+              variable: 'loginUser',
+              workspace: userReducer.userWorkSpace
+            })
+          )
+          userHelper.saveAuthentication(data)
+          dispatch(alertActions.success('Login successfully', true))
+          // history.push("/");
+        },
+        (error) => {
+          userHelper.saveAuthentication()
+          dispatch(apiAction.failure(error.toString()))
+          dispatch(alertActions.error(error.toString(), true))
+        }
+      )
+  }
 }
 
 function logout() {
   userHelper.saveAuthentication();
-  return { type: userConstants.LOGOUT };
+  return { type: userConstants.LOGOUT, workspace: userReducer.userWorkSpace };
 }
 
 function register(user) {

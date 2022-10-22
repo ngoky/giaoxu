@@ -184,13 +184,13 @@ const GroupTop = () => {
   useEffect(() => {
     dispatch(postActions.fetchTypeTop());
   }, [dispatch]);
-  const data = useSelector((state) => state.post.typeTopNews);
+  const data = useSelector((state) => state.posts.typeTopNews);
   // console.log("render", data);
   return <ChildView id="ChildView" data={data} />;
 };
 
 const mapState = (state) => {
-  return { posts: state.post.typeTopNews };
+  return { posts: state.posts.typeTopNews };
 };
 
 const actionCreators = {

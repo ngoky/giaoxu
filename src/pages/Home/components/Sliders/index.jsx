@@ -43,7 +43,7 @@ const Slider = (props) => {
   };
   const dispatch = useDispatch();
   const topPost = useSelector((state) => {
-    return state.post.topNews;
+    return state.posts.topNews;
   });
 
   useEffect(() => {
@@ -132,7 +132,7 @@ const Slider = (props) => {
 };
 
 const mapState = (state) => {
-  return { posts: state.post.topNews };
+  return { posts: state.posts.topNews };
 };
 
 const actionCreators = {

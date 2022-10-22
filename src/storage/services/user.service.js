@@ -9,8 +9,7 @@ const login = async ({ data }) => {
         // localStorage.setItem("topNews", response);
         return response;
       },
-      (_) => {
-        console.log("eo bi gi", _);
+      (_) => {      
         // localStorage.setItem("topNews", fetchTopDefault());
         return user;
       })
@@ -34,14 +33,13 @@ const logout = async () => {
         // localStorage.setItem("topNews", response);
         return response;
       },
-      (_) => {
-        console.log("eo bi gi", _);
+      (_) => {        
         // localStorage.setItem("topNews", fetchTopDefault());
         return user;
       })
     )
     .catch((error) => {
-      console.log("oops", error);
+      console.error(error);
       //localStorage.setItem("topNews", fetchTopDefault());
       return user();
     });

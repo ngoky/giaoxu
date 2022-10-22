@@ -1,37 +1,44 @@
 import { apiConstants } from '../constants'
 
 const initState = {
-    scheduleDetail: null,
-    timeSlots: null,
-    posts: [],
-    newDetail: {}
+  scheduleDetail: null,
+  timeSlots: null,
+  posts: [],
+  newDetail: {}
 }
 
-export const post = (state = initState, action) => {
-    // console.log("calling to reducer", action.type, state);
-    let returnData = state
-    switch (action.type) {
-        case apiConstants.PROGRESSING:
-            return {
-                ...state,
-                isLoading: true
-            }
-        case apiConstants.COMPLETED:
-            console.log('Reducer SUCCESS', action)
-            returnData[action.variable] = action.data
-            return { ...returnData }
-        case apiConstants.FAILURE:
-            return {
-                ...state,
-                error: action.error
-            }
-        case apiConstants.CLEAR:
-            returnData[action.variable] = {}
-            return { ...returnData }
-        case apiConstants.MODIFY_OBJ:
-            returnData[action.variable] = action.data
-            return { ...returnData }
-        default:
-            return state
-    }
+const postWorkspace = 'posts'
+
+export const posts = (state = initState, action) => {
+  if (action.workspace !== postWorkspace) {
+    return { ...state }
+  }
+  console.log('call posts reducer next')
+  let returnData = state
+  switch (action.type) {
+    case apiConstants.PROGRESSING:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case apiConstants.COMPLETED:
+      returnData[action.variable] = action.data
+      return { ...returnData }
+    case apiConstants.FAILURE:
+      return {
+        ...state,
+        error: action.error
+      }
+    case apiConstants.CLEAR:
+      returnData[action.variable] = {}
+      return { ...returnData }
+    case apiConstants.MODIFY_OBJ:
+      console.log('Reducer MODIFY_OBJ', action.data)
+      returnData[action.variable] = action.data
+      return { ...returnData }
+    default:
+      return state
+  }
 }
+
+export const postReducer = { posts, postWorkspace }

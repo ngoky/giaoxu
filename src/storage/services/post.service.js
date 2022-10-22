@@ -9,7 +9,6 @@ const fetchList = ({ param }) => {
       return response;
     },
       (_) => {
-        console.log("eo bi gi", _);
         localStorage.setItem("topNews", fetchTopDefault());
         // return fetchTopDefault();
       })
@@ -29,18 +28,36 @@ const fetchTop = async () => {
         return response;
       },
         (_) => {
-          console.log("eo bi gi", _);
           // localStorage.setItem("topNews", fetchTopDefault());
           return fetchTopDefault();
         })
     )
     .catch((error) => {
-      console.log("oops", error);
       //localStorage.setItem("topNews", fetchTopDefault());
       return fetchTopDefault();
     });
 };
 
+const fetchTypeTop = async () => {
+  const tail = "/news";
+  return await request({
+    tail,
+    param: { limit: 10, page: 1 },
+    method: "GET"
+  })
+    .then(
+      ((response) => {
+        return response;
+      },
+        (_) => {
+          //console.log("eo bi gi", _);
+          return newByType();
+        })
+    )
+    .catch((error) => {
+      return newByType();
+    });
+};
 
 const fetchDetail = async (id) => {
   const tail = "/news/:id";
@@ -66,5 +83,6 @@ const fetchDetail = async (id) => {
 export const postService = {
   fetchList,
   fetchTop,
-  fetchDetail
+  fetchDetail,
+  fetchTypeTop
 };
