@@ -23,6 +23,7 @@
     .latest-news-box {
         height: 50px;
         display: inline;
+        flex-shrink: true
     }
 
     .latest-news-box a {
