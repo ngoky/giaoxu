@@ -49,18 +49,21 @@
             {
                 "key": "news",
                 "icon": "login",
+                "link": "/admin/news",
                 "text": "Login",
                 "authorize": false
             },
             {
                 "key": "types",
                 "icon": "login",
+                "link": "/admin/types",
                 "text": "Login",
                 "authorize": false
             },
             {
                 "key": "users",
                 "icon": "login",
+                "link": "/admin/users",
                 "text": "Login",
                 "authorize": false
             }

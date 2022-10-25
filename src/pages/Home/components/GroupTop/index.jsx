@@ -125,14 +125,14 @@ const NewsArray = (props) => {
 };
 
 const ChildView = (props) => {
-  const { data } = props;
-  // console.log(data);
+  const { data = [] } = props
+  console.log(data)
   const { t } = useTranslation();
   return (
     <>
       <Typography>{t("page.home.top.news.title")}</Typography>
       <Grid container justifyContent="center" className="GroupTop">
-        {data &&
+        {data && Array.isArray(data) &&
           data.map((x) => (
             <Grid
               key={x.id}

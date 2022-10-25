@@ -18,7 +18,8 @@ function users(state = initState, action) {
         isLoading: true
       };
     case apiConstants.COMPLETED:
-      returnData[action.variable] = action.data;
+      delete returnData[action.variable]
+      returnData[action.variable] = { ...action.data }
       return { ...returnData };
     case apiConstants.FAILURE:
       return {

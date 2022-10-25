@@ -1,5 +1,5 @@
 import { request, responseData } from '../http.helper'
-const API_POST_PREFIX = '/posts'
+const API_POST_PREFIX = '/types'
 
 const fetchList = ({ param }, dispatch) => {
     const tail = `${API_POST_PREFIX}`
@@ -23,17 +23,29 @@ const fetchTop = async (dispatch) => {
 
 const fetchTypeTop = async (dispatch) => {
     const tail = `${API_POST_PREFIX}`
-    return await request({
+    return request({
         tail,
         param: { limit: 10, page: 1 },
         method: 'GET'
     }).then((response) => {
-        return response
+        return responseData(response, dispatch)
+    })
+}
+
+const createOrUpdate = async (data, dispatch) => {
+    const tail = `${API_POST_PREFIX}`
+    return request({
+        tail,
+        // param: { limit: 10, page: 1 },
+        data,
+        method: 'post'
+    }).then((response) => {
+        return responseData(response, dispatch)
     })
 }
 
 const fetchDetail = async (id, dispatch) => {
-    const tail = `${API_POST_PREFIX}/:id`
+    const tail = `${API_POST_PREFIX}/${id}`
     return await request({
         tail,
         param: id,
@@ -43,8 +55,9 @@ const fetchDetail = async (id, dispatch) => {
     })
 }
 
-export const postService = {
+export const newsTypeService = {
     fetchList,
+    createOrUpdate,
     fetchTop,
     fetchDetail,
     fetchTypeTop

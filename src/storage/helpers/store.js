@@ -1,8 +1,14 @@
 import { applyMiddleware, combineReducers, legacy_createStore } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
-import { alert, authentication, registration, postReducer, userReducer } from "../reducers";
-// import { reducer as formReducer } from 'redux-form/immutable'
+import {
+    alert,
+    authentication,
+    registration,
+    postReducer,
+    userReducer,
+    newsTypeReducer
+} from '../reducers'
 
 const loggerMiddleware = createLogger();
 export const store = legacy_createStore(
@@ -12,7 +18,8 @@ export const store = legacy_createStore(
         authentication,
         registration,
         posts: postReducer.posts,
-        users: userReducer.users
+        users: userReducer.users,
+        newsType: newsTypeReducer.newsTypes,
     }),
-    applyMiddleware(thunkMiddleware)
+    applyMiddleware(thunkMiddleware, loggerMiddleware)
 )

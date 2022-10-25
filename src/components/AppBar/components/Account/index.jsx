@@ -22,7 +22,10 @@ const AccountView = (props) => {
     const [anchorElUser, setAnchorElUser] = React.useState(null)
     const { t } = useTranslation()
     const { auth } = props
-    const [user = { email: '', password: '' }, setUser] = useState()
+    const [user = { email: '', password: '' }, setUser] = useState({
+        email: 'ky.ngo@mailinator.com',
+        password: '12345678@Ab'
+    })
 
     const userMenu = t('menus.user-setting', { returnObjects: true }).filter(
         (x) => x.authorize === (auth !== null)
@@ -37,7 +40,7 @@ const AccountView = (props) => {
     const handleCloseUserMenu = (event) => {
         setAnchorElUser(null)
         if (event === 'login') {
-            dispatch(userActions.login())
+            dispatch(userActions.login({ data: { ...user } }))
         } else if (event === 'logout') {
             dispatch(userActions.logout())
         }
@@ -53,7 +56,7 @@ const AccountView = (props) => {
 
     const submitLogin = () => {
         setAnchorElUser(null)
-        dispatch(userActions.login(user))
+        dispatch(userActions.login({ data: { ...user } }))
     }
 
     return (
@@ -108,6 +111,7 @@ const AccountView = (props) => {
                                     variant="outlined"
                                     className="edit-text"
                                     id="email"
+                                    value="ky.ngo@mailinator.com"
                                     required
                                     onChange={handleChange}
                                 />
@@ -116,6 +120,7 @@ const AccountView = (props) => {
                                     label="Password"
                                     variant="outlined"
                                     type="password"
+                                    value="12345678@Ab"
                                     className="edit-text"
                                     // formControlProps={{
                                     //   fullWidth: true

@@ -44,16 +44,19 @@
             {
                 "key": "news",
                 "icon": "login",
+                "link": "/admin/news",
                 "text": "Tin tức"
             },
             {
                 "key": "types",
                 "icon": "login",
+                "link": "/admin/types",
                 "text": "Thể loại"
             },
             {
                 "key": "users",
                 "icon": "login",
+                "link": "/admin/users",
                 "text": "Thành Viên"
             }
         ]

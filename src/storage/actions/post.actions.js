@@ -9,24 +9,25 @@ const fetchTop = () => {
     console.log(dispatch);
     dispatch(apiAction.processing());
     postService
-      .fetchTop()
+      .fetchTop(dispatch)
       .then(
         (topPosts) => {
           dispatch(apiAction.success({ data: topPosts, variable: "topNews", workspace: postReducer.postWorkspace }));
-          dispatch(alertActions.success("Fetch successful", true));
+          // dispatch(alertActions.success("Fetch successful", true));
+          return topPosts
         },
-        (error) => {
-          dispatch(alertActions.error(error.toString()));
-          dispatch(
-            apiAction.success({ data: fetchTopDefault(), variable: "topNews", workspace: postReducer.postWorkspace })
-          );
-          // dispatch(alertActions.error(error.toString()));
-        }
+        // (error) => {
+        //   dispatch(alertActions.error(error.toString()));
+        //   dispatch(
+        //     apiAction.success({ data: fetchTopDefault(), variable: "topNews", workspace: postReducer.postWorkspace })
+        //   );
+        //   // dispatch(alertActions.error(error.toString()));
+        // }
       )
-      .catch((err) => {
-        dispatch(apiAction.failure(err.toString()));
-        dispatch(alertActions.failure(err.toString()));
-      });
+      // .catch((err) => {
+      //   dispatch(apiAction.failure(err.toString()));
+      //   dispatch(alertActions.failure(err.toString()));
+      // });
   };
 };
 
