@@ -36,8 +36,7 @@ const placeSelectedItemInTheMiddle = (index) => {
   // const LIST_ITEM_HEIGHT = 60;
   const NUM_OF_VISIBLE_LIST_ITEMS = 5;
   const amountToScroll =
-    itemHeight * (index - NUM_OF_VISIBLE_LIST_ITEMS / 2 + 0.5);
-  // console.log('scroll to',amountToScroll, 'index: ', scrollableListRef.current)
+      itemHeight * (index - NUM_OF_VISIBLE_LIST_ITEMS / 2 + 0.5)
   scrollableListRef.current.scrollTo(amountToScroll, 0);
 };
 const useStyles = makeStyles(() => ({
@@ -71,39 +70,44 @@ const Row = (props) => {
     handleChange(event);
   };
   return (
-    <ListItem
-      key={index}
-      disablePadding
-      onClick={() => changeIndex(index)}
-      style={style}
-      selected={selected}
-      title={text.title}
-    >
-      <ListItemButton style={{ maxHeight: "60px", margin: 0, padding: 0 }}>
-        <ListItemIcon style={{ maxHeight: "60px" }}>
-          <img src={text.photo} alt={text.photo} height={50} width={50} />
-        </ListItemIcon>
-        <Item theme={theme} height={50} style={{ paddingLeft: 2 }}>
-          <div
-            style={{
-              whiteSpace: "nowrap",
-              textOverflow: "ellipsis",
-              width: "100%",
-              overflow: "hidden"
-            }}
-          >
-            {text.title}
-          </div>
-          {/* <div>{text.title}</div> */}
-          <Grid container justifyContent="flex-end">
-            <Link href={`news/${index}`} text="Read more">
-              Read more
-            </Link>
-          </Grid>
-        </Item>
-      </ListItemButton>
-    </ListItem>
-  );
+      <ListItem
+          key={index}
+          disablePadding
+          onClick={() => changeIndex(index)}
+          style={style}
+          selected={selected}
+          title={text.title}
+      >
+          <ListItemButton style={{ maxHeight: '60px', margin: 0, padding: 0 }}>
+              <ListItemIcon style={{ maxHeight: '60px' }}>
+                  <img
+                      src={text.photo}
+                      alt={text.photo}
+                      height={50}
+                      width={50}
+                  />
+              </ListItemIcon>
+              <Item theme={theme} height={50} style={{ paddingLeft: 2 }}>
+                  <div
+                      style={{
+                          whiteSpace: 'nowrap',
+                          textOverflow: 'ellipsis',
+                          width: '100%',
+                          overflow: 'hidden'
+                      }}
+                  >
+                      {text.title}
+                  </div>
+                  {/* <div>{text.title}</div> */}
+                  <Grid container justifyContent="flex-end">
+                      <Link href={`news/${text.id}`} text="Read more">
+                          Read more
+                      </Link>
+                  </Grid>
+              </Item>
+          </ListItemButton>
+      </ListItem>
+  )
 };
 
 Row.propTypes = {

@@ -9,7 +9,6 @@ const initState = {
 };
 
 export const post = (state = initState, action) => {
-  console.log("calling to reducer", action.type, state);
   let returnData = state;
   switch (action.type) {
     case postConstants.FETCH_TYPE_TOP_POST_REQUEST:
@@ -19,11 +18,9 @@ export const post = (state = initState, action) => {
         isLoading: true
       };
     case postConstants.FETCH_TYPE_TOP_POST_COMPLETED:
-      console.log("Reducer SUCCESS", action);
       returnData[action.variable] = action.data;
       return { ...returnData };
     case postConstants.FETCH_TOP_POST_COMPLETED:
-      console.log("Reducer SUCCESS", action);
       returnData[action.variable] = action.data;
       return { ...returnData };
     case apiConstants.FAILURE:

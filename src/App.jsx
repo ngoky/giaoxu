@@ -3,29 +3,25 @@ import React, { useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { MenuOpen, Menu } from "@mui/icons-material";
 import Banner from "./components/Banner";
-import Routers from "./routes";
-import { userActions } from "./storage/actions";
-import { connect, useSelector } from "react-redux";
+import Routers from './routes'
 
-import "./App.scss";
-import LeftDrawer from "./components/Drawable";
-import Display from "./components/Display";
-import MenuLayout from "./components/MenuButton";
-import "./translation/i18n";
-import Notification from "./components/Notification";
-import { userHelper } from "./storage/helpers";
+import './App.scss'
+import LeftDrawer from './components/Drawable'
+import Display from './components/Display'
+import MenuLayout from './components/MenuButton'
+import './translation/i18n'
+import Notification from './components/Notification'
 import { AppBar } from './components'
+import useWindowSize from 'hooks/useWindowSize'
 
 const drawerWidth = 240
 const menuButtonWidth = 40
-
 const App = () => {
+    const size = useWindowSize()
+
     const theme = useTheme()
     const [open, setOpen] = useState()
-    const auth =
-        useSelector((state) => userHelper.parseUser(state)) ||
-        userHelper.auth() ||
-        null
+    console.log('re-render app')
 
     const openHandler = (mark) => {
         setOpen(mark)
@@ -50,19 +46,20 @@ const App = () => {
                             height="100px"
                         />
                     </Banner>
-                    <AppBar theme={theme} open={open} auth={auth} />
+                    <AppBar theme={theme} open={open} />
                 </header>
                 <div
                     className="content"
                     style={{
                         position: 'relative',
                         //margin: `0 ${menuButtonWidth}px 0 ${menuButtonWidth}px`,
-                        overflow: 'hidden'
+                        overflow: 'hidden',
+                        '--window-width': `${size.width}px`
                     }}
                 >
                     {/* <AppHeader /> */}
                     <BrowserRouter>
-                        <Routers auth={auth} />
+                        <Routers />
                     </BrowserRouter>
                 </div>
             </Display>
@@ -105,14 +102,4 @@ const App = () => {
     )
 }
 
-const mapState = (state) => {
-  const { users: loginUser } = state;
-  return loginUser;
-};
-
-const actionCreators = {
-  login: userActions.login,
-};
-
-const ConnectedApp = connect(mapState, actionCreators)(App);
-export default ConnectedApp;
+export default App

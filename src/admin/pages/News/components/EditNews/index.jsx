@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { memo, useCallback, useEffect, useMemo, useRef } from 'react'
 import ReactQuill from 'react-quill'
 import { Grid, Box, TextField, Divider, Button, MenuItem } from '@mui/material'
 import 'react-quill/dist/quill.snow.css'
@@ -6,11 +6,12 @@ import './index.scss'
 import { DragDropFile } from '@/components'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
-import { connect, shallowEqual, useDispatch, useSelector } from 'react-redux'
-import { apiAction, postActions } from 'storage/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { apiAction, postActions, newsTypeActions } from 'storage/actions'
 import { apiConstants } from 'storage/constants'
-import _ from 'lodash'
 import { postReducer } from 'storage/reducers'
+import _ from 'lodash'
+import { request } from 'storage/http.helper'
 // import { Field, reduxForm } from 'redux-form/immutable'
 
 const uploadFiles = async (uploadFileObj, filename, quillObj) => {
@@ -28,16 +29,11 @@ const uploadFiles = async (uploadFileObj, filename, quillObj) => {
     filename = fileNamePredecessor + filename
 
     //To Upload in root folder
-    var apiUrl = `${siteUrl}/RootFolder/Files/Add(url='${filename}', overwrite=true)`
-    // const digestCache = this.props.context.serviceScope.consume(
-    //   DigestCache.serviceKey
-    // );
-    // digestCache
-    //   .fetchDigest(this.props.context.pageContext.web.serverRelativeUrl)
-    //   .then(async (digest) => {
+    // var apiUrl = `${siteUrl}/RootFolder/Files/Add(url='${filename}', overwrite=true)`
     try {
         if (uploadFileObj !== '') {
-            fetch(apiUrl, {
+            request({
+                tail: '/image/',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json;odata=verbose'
@@ -46,37 +42,27 @@ const uploadFiles = async (uploadFileObj, filename, quillObj) => {
                 body: uploadFileObj // This is your file object
             })
                 .then((response) => {
-                    console.log(response)
                     const range = quillObj.getEditorSelection()
                     const { url } = response
                     //var res = siteUrl + "/" + listName + "/" + filename;
 
                     quillObj.getEditor().insertEmbed(range.index, 'image', url)
                 })
-                .catch((error) => console.log(error))
+                .catch((error) => console.error(error))
         }
     } catch (error) {
-        console.log('uploadFiles : ' + error)
+        console.error('uploadFiles : ' + error)
     }
     //});
 }
 
-const initialState = {
-    title: '',
-    summary: '',
-    content: ''
-}
-
 export const EditNewsView = () => {
     const { id } = useParams()
-    console.log(id)
     const quillRef = useRef()
     const navigate = useNavigate()
     // const [data, setData] = useState(initialState)
     const selectLocalImage = () => {
-        console.log('open image config')
         const editor = quillRef.current.getEditor()
-        console.log(editor)
         const input = document.createElement('input')
         input.setAttribute('type', 'file')
         input.setAttribute('accept', 'image/*')
@@ -85,7 +71,6 @@ export const EditNewsView = () => {
         input.onchange = async () => {
             const file = input.files[0]
             if (/^image\//.test(file.type)) {
-                console.log(file)
                 const formData = new FormData()
                 formData.append('image', file)
                 const res = await uploadFiles(formData) // upload data into server or aws or cloudinary
@@ -98,13 +83,13 @@ export const EditNewsView = () => {
     }
 
     const dispatch = useDispatch()
-    const data =
-        useSelector((state) => {
-            console.log('test: ', state.posts?.newDetail?.summary)
-            return id && !_.isEmpty(state.posts.newDetail)
-                ? state.posts.newDetail
-                : null
-        }, shallowEqual) || initialState
+    const data = useSelector((state) => {
+        // console.log('state.posts.newDetail', state.posts.newDetail)
+        return state.posts.newDetail || {}
+    })
+    useEffect(() => {
+        dispatch(newsTypeActions.fetchTypes())
+    }, [dispatch])
 
     useEffect(() => {
         if (id) {
@@ -125,11 +110,12 @@ export const EditNewsView = () => {
     const summary = t('admin.pages.news.edit.overlay.news-summary')
 
     const onChangeHandler = (e) => {
-        console.log(e.target.name, e.target.value)
-        // if (data[e.target.name] === e.target.value) {
-        //     return
-        // }
+        console.log(e)
+        if (!e.target?.name) {
+            return
+        }
         data[e.target.name] = e.target.value
+        console.log('change', e.target.value)
         dispatch(
             apiAction.sendAction({
                 type: apiConstants.MODIFY_OBJ,
@@ -140,10 +126,49 @@ export const EditNewsView = () => {
         )
     }
 
+    const onContentChange = useCallback(
+        (e) => {
+            if (_.isEmpty(data)) {
+                return
+            }
+            // if (!data.id && id) return
+            console.log('before update', data)
+            if (e === data.content) {
+                return
+            }
+            data['content'] = e
+            console.log('update', data)
+            // console.log('change', e.target.value)
+            dispatch(
+                apiAction.sendAction({
+                    type: apiConstants.MODIFY_OBJ,
+                    variable: 'newDetail',
+                    data: { ...data },
+                    workspace: postReducer.postWorkspace
+                })
+            )
+        },
+        [data, dispatch]
+    )
+
     const onSubmit = () => {
-        console.log('submit')
+        const cloneObj = {
+            id: data?.id,
+            summary: data?.summary,
+            subject: data?.subject,
+            typeId: data?.typeId,
+            photo: data?.photo,
+            content: data?.content,
+            status: data?.status || 'SUBMITTED'
+        }
+        console.log('submit', cloneObj)
+        dispatch(
+            postActions.createOrUpdate({
+                ...cloneObj,
+                photo: 'https://cdn.pixabay.com/photo/2018/01/12/10/19/fantasy-3077928_1280.jpg'
+            })
+        )
     }
-    console.log('render data', data?.summary)
     const modules = useMemo(
         () => ({
             toolbar: {
@@ -161,22 +186,23 @@ export const EditNewsView = () => {
         []
     )
 
-    const types = useSelector((state) => state?.types?.typeList) || [
-        { id: 1, name: 'Thông Báo' },
-        { id: 2, name: 'T Báo' }
-    ]
+    const types = useSelector((state) => state.newsType.types?.data) || []
 
     useEffect(
         () => () => {
-            apiAction.sendAction({
-                type: apiConstants.CLEAR,
-                variable: 'newDetail',
-                workspace: postReducer.postWorkspace
-            })
-            console.log('unmount')
+            dispatch(
+                apiAction.sendAction({
+                    type: apiConstants.CLEAR,
+                    variable: 'newDetail',
+                    workspace: postReducer.postWorkspace
+                })
+            )
+            console.error('unmount')
         },
-        []
+        [dispatch]
     )
+
+    console.log('render: ', data)
 
     return (
         data && (
@@ -201,11 +227,11 @@ export const EditNewsView = () => {
                             className="edit-text-box"
                         >
                             <TextField
-                                name="title"
+                                name="subject"
                                 label={title}
                                 // component={TextField}
                                 // defaultValue={data.title}
-                                value={data.title}
+                                value={data?.subject || ''}
                                 type="text"
                                 onChange={onChangeHandler}
                                 variant="outlined"
@@ -220,9 +246,9 @@ export const EditNewsView = () => {
                             className="edit-text-box"
                         >
                             <TextField
-                                name="type"
+                                name="typeId"
                                 label={title}
-                                value={data.type || 0}
+                                value={data?.typeId || ''}
                                 select
                                 onChange={onChangeHandler}
                                 variant="outlined"
@@ -253,7 +279,7 @@ export const EditNewsView = () => {
                                 name="summary"
                                 // component={TextField}
                                 label={summary}
-                                value={data.summary}
+                                value={data?.summary || ''}
                                 type="text"
                                 // defaultValue={data.summary}
                                 onChange={onChangeHandler}
@@ -271,9 +297,11 @@ export const EditNewsView = () => {
                 </div>
                 <Divider />
                 <ReactQuill
+                    name="content"
                     modules={modules}
                     ref={quillRef}
-                    value={data.content}
+                    value={data?.content || ''}
+                    onChange={onContentChange}
                 />
                 <Divider />
                 <Box display="inline-flex" className="action-buttons-box">
@@ -284,13 +312,4 @@ export const EditNewsView = () => {
         )
     )
 }
-const mapState = (state) => {
-    return state?.posts?.newDetail
-}
-
-const actionCreators = {
-    fetchDetail: postActions.fetchDetail,
-    sendAction: apiAction.sendAction
-}
-// const EditForm = reduxForm({ form: 'edit-news' })(EditNewsView)
-export const EditNews = connect(mapState, actionCreators)(EditNewsView)
+export const EditNews = memo(EditNewsView)

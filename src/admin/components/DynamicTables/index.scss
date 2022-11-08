@@ -1,0 +1,44 @@
+.Table {
+    margin: auto;
+
+    table {
+        width: 100%;
+        table-layout: auto;
+    }
+
+    .action-item-box {
+        place-content: center;
+        display: grid;
+    }
+
+    .actionButton {}
+
+    .actionLink {
+        text-decoration: none;
+    }
+
+    tr td:last-child {
+        width: 1%;
+        white-space: nowrap;
+    }
+
+    .photo {
+        width: 10%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .photo img {
+        width: 60px;
+        height: auto;
+        max-height: 60px;
+    }
+
+    .sticky {
+        position: sticky;
+        right: 0;
+        background: white;
+        box-shadow: 5px 2px 5px grey;
+        border-left: 1px solid rgb(238, 238, 238);
+    }
+}

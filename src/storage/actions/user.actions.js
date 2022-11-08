@@ -14,11 +14,9 @@ export const userActions = {
 
 function login(props) {
     const { data } = props
-    console.log('call login', data)
     return (dispatch) => {
         dispatch(apiAction.processing())
         userService.login(data, dispatch).then(response => {
-        console.log('userService login', response)
         userHelper.saveAuthentication(response)
         if (response) {
             // userHelper.saveAuthentication(data)

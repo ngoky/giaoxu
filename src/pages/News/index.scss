@@ -2,6 +2,14 @@
     font-family: "serif";
     color: #000;
 
+    .html-content {
+        width: calc(var(--window-width) - 48px);
+
+        pre {
+            overflow-x: scroll;
+        }
+    }
+
     .new-info-box {
         width: 100%;
         height: 100%;

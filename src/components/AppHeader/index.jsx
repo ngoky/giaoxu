@@ -14,16 +14,13 @@ export const AppHeader = () => {
         realObjects = contextRoutes.map((x, index) => {
             const array = [...contextRoutes.filter((x) => x)].splice(0, index)
             const display = mapToName.find((map) => map.to === x)
-            // console.log('splices at', x, 'result', mapToName)
             return {
                 text: x,
                 url: '/' + array.join('/'),
                 displayText: display ? display.text : ''
             }
-            // realObjects.push()
         })
     }
-    // console.log('origin obj', contextRoutes, 'parsing', realObjects)
     return (
         <Box display="flex" className="AppHeader">
             <div className="item-text-box">

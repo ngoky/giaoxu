@@ -27,7 +27,7 @@ export const DragDropFile = (prop) => {
         e.stopPropagation()
         setDragActive(false)
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            console.log(e.dataTransfer.files)
+            console.error(e.dataTransfer.files)
             // handleFiles(e.dataTransfer.files);
         }
     }
@@ -37,7 +37,7 @@ export const DragDropFile = (prop) => {
         e.preventDefault()
         if (e.target.files && e.target.files[0]) {
             // handleFiles(e.target.files);
-            console.log(e.dataTransfer.files)
+            console.error(e.dataTransfer.files)
         }
     }
 

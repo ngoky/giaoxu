@@ -1,18 +1,19 @@
-import { Add } from '@mui/icons-material'
+import { Add, Remove } from '@mui/icons-material'
 import { Box, Paper, Grid } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { newsTypeActions } from 'storage/actions'
-import EnhancedTable from '../News/components/NewsTable'
+import { TypeList } from './components/TypeList'
 import { UpdateUi } from './components/UpdateUI'
 
 const TypesView = () => {
     const [open, setOpen] = useState(false)
     const [pageNumber, setPageNumber] = useState(1)
     const [pageItems, setPageItems] = useState(10)
-
-    const changReduxItem = (data, key) => {}
     const handleClick = () => {
+        if (open && selectedRow > 0) {
+            setSelectedRow(0)
+        }
         setOpen(!open)
     }
 
@@ -32,34 +33,60 @@ const TypesView = () => {
         setPageItems(number)
     }
 
+    const [selectedRow, setSelectedRow] = useState(0)
+
     const saveObj = useSelector((state) => state.newsType?.types || {})
     const { data = [], page = 1, limit = 10 } = saveObj
-    console.log(data, page, limit)
+
+    const editClick = (id) => {
+        setSelectedRow(id)
+        setOpen(true)
+    }
+
+    const deleteHandler = (id) => {
+        dispatch(newsTypeActions.deleteType(id))
+        dispatch(
+            newsTypeActions.fetchTypes({ page: pageNumber, limit: pageItems })
+        )
+    }
+    console.log('selected row', selectedRow)
 
     return (
         <Box>
             <p>Admin- Type</p>
-            <Paper>
-                <Grid container textAlign="flex-right" onClick={handleClick}>
-                    <Add />
+            <Grid container>
+                <Grid item xs={12} sm={12} md={open ? 6 : 12}>
+                    <Paper>
+                        <Grid
+                            container
+                            textAlign="flex-right"
+                            onClick={handleClick}
+                        >
+                            {open ? <Remove /> : <Add />}
+                        </Grid>
+                        {open && (
+                            <UpdateUi
+                                open={open}
+                                handleChange={handleClick}
+                                id={selectedRow}
+                            />
+                        )}
+                    </Paper>
                 </Grid>
-                {open && <UpdateUi open={open} handleChange={handleClick} />}
-            </Paper>
-            <EnhancedTable
-                onPageChange={onPageChange}
-                onPageItemChange={onPageItemChange}
-            />
+                <Grid item xs={12} sm={12} md={open ? 6 : 12}>
+                    <TypeList
+                        onPageChange={onPageChange}
+                        onPageItemChange={onPageItemChange}
+                        data={data}
+                        page={page}
+                        limit={limit}
+                        editClick={editClick}
+                        deleteHandler={deleteHandler}
+                    />
+                </Grid>
+            </Grid>
         </Box>
     )
 }
 
-const mapStateToProps = (state) => {
-    console.log(state.newsType)
-    return state.newsType.types
-}
-
-const actionCreators = {
-    fetchTypes: newsTypeActions.fetchTypes
-}
-
-export const Types = connect(mapStateToProps, actionCreators)(TypesView)
+export const Types = TypesView

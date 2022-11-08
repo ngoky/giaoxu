@@ -11,7 +11,6 @@ export const newsTypes = (state = initState, action) => {
     if (action.workspace !== newsTypeWorkspace) {
         return { ...state }
     }
-    console.log('call posts reducer next')
     let returnData = state
     switch (action.type) {
         case apiConstants.PROGRESSING:
@@ -31,7 +30,6 @@ export const newsTypes = (state = initState, action) => {
             returnData[action.variable] = {}
             return { ...returnData }
         case apiConstants.MODIFY_OBJ:
-            console.log('Reducer MODIFY_OBJ', action.data)
             returnData[action.variable] = action.data
             return { ...returnData }
         default:

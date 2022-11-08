@@ -1,12 +1,11 @@
 import { apiConstants } from '@/constants/api.constants'
 import axios from 'axios'
 import { alertActions } from './actions'
+import { userHelper } from './helpers'
 
 const baseUrl = process.env.REACT_APP_BACK_END_API
-console.log(process.env.REACT_APP_BACK_END_API)
 
 const handlerResponse = (apiResponse) => {
-    // console.log('handlerResponse', apiResponse)
     const { status = 500, data = null, message = null } = apiResponse
     const response = {
         status: apiConstants.INTERNAL_PROCESS.INTERNAL_ERROR,
@@ -17,9 +16,6 @@ const handlerResponse = (apiResponse) => {
             return response
         case apiConstants.API_RESPONSE_CODE.SUCCESS:
         case apiConstants.API_RESPONSE_CODE.CREATED:
-            // response.status = apiConstants.INTERNAL_PROCESS.SUCCESS
-            // response.data = data
-            // response.message = message
             return data
         default:
             return data
@@ -27,7 +23,6 @@ const handlerResponse = (apiResponse) => {
 }
 
 export const responseData = (dataResponse, dispatch) => {
-    // console.log('responseData', dataResponse)
     const {
         code = apiConstants.INTERNAL_PROCESS.FAILED,
         data = null,
@@ -38,7 +33,6 @@ export const responseData = (dataResponse, dispatch) => {
             if (dispatch) {
                 dispatch(alertActions.success(message, true))
             }
-            // case apiConstants.API_RESPONSE_CODE.CREATED:
             return data
         default:
             if (dispatch) {
@@ -53,9 +47,15 @@ const axiosRequest = async ({
     method,
     param,
     data,
+    auth = false,
     headers = { 'content-type': 'application/json' }
 }) => {
-    // headers.append({ content: 'application/json' })
+    if (auth) {
+        headers['Authorization'] = `${userHelper.authHeader().Authorization}`
+        // headers.appends({ Authentication: `Bearer ${userHelper.auth()}` })
+    }
+
+    console.log(headers)
     return axios({
         url: `${baseUrl}${tail}`,
         method,
@@ -64,11 +64,10 @@ const axiosRequest = async ({
         headers
     })
         .then((result) => {
-            console.log(result)
             return handlerResponse(result)
         })
         .catch((err) => {
-            console.log('axios error', err)
+            console.error('axios error', err)
             return handlerResponse({
                 status: apiConstants.API_RESPONSE_CODE.INTERNAL_ERROR,
                 message: err.message
@@ -80,7 +79,8 @@ export const request = async ({
     method = 'GET',
     param = null,
     data = null,
-    headers = null
+    headers,
+    auth = false
 }) => {
-    return await axiosRequest({ tail, method, param, data, headers })
+    return await axiosRequest({ tail, method, param, data, headers, auth })
 }

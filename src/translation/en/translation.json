@@ -5,6 +5,21 @@
             "top.news.title": "Latest New"
         }
     },
+    "data": {
+        "new-types": {
+            "status": [
+                {
+                    "key": "ACTIVE",
+                    "label": "ACTIVE",
+                    "default": true
+                },
+                {
+                    "key": "DISABLED",
+                    "label": "DISABLED"
+                }
+            ]
+        }
+    },
     "menus": {
         "navbar": [
             {

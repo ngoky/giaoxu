@@ -2,10 +2,14 @@ import { apiConstants } from "../constants";
 import { } from "../helpers";
 
 const success = (props) => {
-  console.log('api action post')
-  const { message = "", data = null, variable = null, workspace = 'users' } = { ...props };
-  return { type: apiConstants.COMPLETED, message, data, variable, workspace };
-};
+    const {
+        message = '',
+        data = null,
+        variable = null,
+        workspace = 'users'
+    } = { ...props }
+    return { type: apiConstants.COMPLETED, message, data, variable, workspace }
+}
 
 const failure = (props) => {
   const { message = '', data = null, variable = null } = { ...props }
@@ -24,10 +28,15 @@ const idle = (props) => {
 
 // send for specific key to check in reducer
 const sendAction = (props) => {
-  console.log('sendAction', { props })
-  const { message = '', data = null, variable = null, type, workspace } = { ...props }
-  return { message, data, variable, type, workspace }
-};
+    const {
+        message = '',
+        data = null,
+        variable = null,
+        type,
+        workspace
+    } = { ...props }
+    return { message, data, variable, type, workspace }
+}
 
 export const apiAction = {
   success,

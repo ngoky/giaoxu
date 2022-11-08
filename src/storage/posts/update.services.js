@@ -6,7 +6,6 @@ const initState = {
 
 export const post = (props) => {
   const { state = initState, type, variable, data } = { ...props };
-  console.log("calling to reducer", data);
   let ddata = state;
   switch (type) {
     case postConstants.FETCH_TOP_POST_INPROGRESS:

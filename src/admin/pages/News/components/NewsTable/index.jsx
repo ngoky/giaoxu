@@ -74,13 +74,8 @@ export default function EnhancedTable(props) {
     const navigate = useNavigate()
     const editHandler = (e) => {
         e.stopPropagation()
-        console.log('test', e.target.id)
         navigate(`/admin/news/${e.target.id}`)
     }
-    // const navigatePage = (e) => {
-    //     e.stopPropagation()
-    //     console.log('test')
-    // }
     const actions = [
         {
             id: 1,
@@ -101,10 +96,6 @@ export default function EnhancedTable(props) {
             label: 'View'
         }
     ]
-    // const [open, setOpen] = useState(false);
-    // const handleOpen = () => setOpen(true);
-    // const handleClose = () => setOpen(false);
-    console.log('render')
     return (
         <div className="NewsTable">
             <Tables

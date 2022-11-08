@@ -28,22 +28,24 @@ const AppBarStyle = styled(MuiAppBar, {
   }),
 }));
 
-export const AppBar = ({ check, theme, width, auth }) => {
+export const AppBar = ({ check, theme, width }) => {
   return (
-    <AppBarStyle
-      id="AppBar"
-      position="relative"
-      theme={theme}
-      open={check}
-      width={width}
-    >
-      <Toolbar id="Toolbar" style={{ minHeight: "60px", maxHeight: "60px" }}>
-        <MyMenu
-          sx={{ width: 100, minHeight: "60px", maxHeight: "60px" }}
-          auth={auth}
-        />
-        <Account auth={auth} />
-      </Toolbar>
-    </AppBarStyle>
-  );
+      <AppBarStyle
+          id="AppBar"
+          position="relative"
+          theme={theme}
+          open={check}
+          width={width}
+      >
+          <Toolbar
+              id="Toolbar"
+              style={{ minHeight: '60px', maxHeight: '60px' }}
+          >
+              <MyMenu
+                  sx={{ width: 100, minHeight: '60px', maxHeight: '60px' }}
+              />
+              <Account />
+          </Toolbar>
+      </AppBarStyle>
+  )
 };

@@ -43,7 +43,7 @@ const ShortInfo = (props) => {
             justifyContent="flex-start"
             className="left-text-align"
           >
-            {author.name}
+            {author?.name}
           </Grid>
           <Grid
             item
@@ -61,7 +61,7 @@ const ShortInfo = (props) => {
             justifyContent="flex-start"
             className="left-text-align"
           >
-            {author.title}
+            {author?.title}
           </Grid>
           <Grid
             item

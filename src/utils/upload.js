@@ -65,7 +65,7 @@ export async function compressImage(file) {
       res = await imageCompression(file, options);
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.log(error);
+      console.error(error);
     }
   }
   return res;

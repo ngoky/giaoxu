@@ -218,11 +218,10 @@ export default function Tables(props) {
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5)
     const { rows = [], headCells = [] } = props
-    // const pagination = usePagination(rows, rowsPerPage);
-    // console.log(pagination);
     const { actions = [] } = props
 
     const handleRequestSort = (event, property) => {
+        console.log(property)
         const isAsc = orderBy === property && order === 'asc'
         setOrder(isAsc ? 'desc' : 'asc')
         setOrderBy(property)
@@ -257,7 +256,6 @@ export default function Tables(props) {
     }
 
     const handleChangePage = (event, newPage) => {
-        console.log(newPage)
         setPage(newPage)
     }
 
@@ -335,9 +333,6 @@ export default function Tables(props) {
                                 {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
                                 {displayData.map((row, index) => {
-                                    // for (const [k, v] of Object.entries(row)) {
-                                    //     console.log(k, v)
-                                    // }
                                     const isItemSelected = isSelected(row.name)
                                     const labelId = `enhanced-table-checkbox-${index}`
 

@@ -43,92 +43,94 @@ const Slider = (props) => {
   };
   const dispatch = useDispatch();
   const topPost = useSelector((state) => {
-    return state.posts.topNews;
+    return state.posts.topNews || {};
   });
+  const { data=[] } = topPost
 
   useEffect(() => {
-    dispatch(postActions.fetchTop());
-    // setTopPost(topPost);
+    dispatch(postActions.fetchTop())
   }, [dispatch]);
 
-  // console.log("renders", topPost);
   return (
-    topPost &&
-    topPost.length > 0 && (
-      <Box sx={{ flexGrow: 1, marginBottom: "60px" }}>
-        <Grid
-          container
-          maxHeight={sliderHeight}
-          height={sliderHeight}
-          sx={{ flexDirection: "column" }}
-        >
-          <Grid
-            item
-            xs={0}
-            sm={0}
-            md={3}
-            xl={3}
-            sx={{ display: { xs: "none", sm: "none", md: "flex" } }}
-          >
-            <LeftView
-              post={topPost[index]}
-              index={index}
-              height={sliderHeight}
-            />
-          </Grid>
-          <Layout item xs={12} sm={8} md={6} xl={6}>
-            <ReactSlick
-              settings={settings}
-              dots
-              infinite
-              speed={1000}
-              slidesToScroll={1}
-              initialSlide={index}
-              autoplay
-              autoplaySpeed={2000}
-              slickNext
-              slickPrevious
-              swipe
-              beforeChange={beforeChange}
-            >
-              {topPost.map((element) => (
-                <div key={element.label} style={{ width: "100%" }}>
-                  <img
-                    src={element.photo}
-                    alt={element.label}
-                    style={{
-                      borderRadius: "15px",
-                      height: `${sliderHeight}px`,
-                      maxHeight: `${sliderHeight}px`,
-                      display: "block",
-                      overflow: "hidden",
-                      margin: "auto",
-                      width: "100%"
-                    }}
-                  />
-                </div>
-              ))}
-            </ReactSlick>
-          </Layout>
-          <Grid
-            item
-            xs={0}
-            sm={4}
-            md={3}
-            xl={3}
-            sx={{ display: { xs: "none", sm: "flex", md: "flex" } }}
-          >
-            <RightView
-              posts={topPost}
-              index={index}
-              height={sliderHeight}
-              style={{ border: "solid 1px black" }}
-            />
-          </Grid>
-        </Grid>
-      </Box>
-    )
-  );
+      data &&
+      data.length > 0 && (
+          <Box sx={{ flexGrow: 1, marginBottom: '60px' }}>
+              <Grid
+                  container
+                  maxHeight={sliderHeight}
+                  height={sliderHeight}
+                  sx={{ flexDirection: 'column' }}
+              >
+                  <Grid
+                      item
+                      xs={0}
+                      sm={0}
+                      md={3}
+                      xl={3}
+                      sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }}
+                  >
+                      <LeftView
+                          post={data[index]}
+                          index={index}
+                          height={sliderHeight}
+                      />
+                  </Grid>
+                  <Layout item xs={12} sm={8} md={6} xl={6}>
+                      <ReactSlick
+                          settings={settings}
+                          dots
+                          infinite
+                          speed={1000}
+                          slidesToScroll={1}
+                          initialSlide={index}
+                          autoplay
+                          autoplaySpeed={2000}
+                          slickNext
+                          slickPrevious
+                          swipe
+                          beforeChange={beforeChange}
+                      >
+                          {data.map((element) => (
+                              <div
+                                  key={element.id}
+                                  style={{ width: '100%' }}
+                              >
+                                  <img
+                                      src={element.photo}
+                                      alt={element.label}
+                                      style={{
+                                          borderRadius: '15px',
+                                          height: `${sliderHeight}px`,
+                                          maxHeight: `${sliderHeight}px`,
+                                          display: 'block',
+                                          overflow: 'hidden',
+                                          margin: 'auto',
+                                          width: '100%'
+                                      }}
+                                  />
+                              </div>
+                          ))}
+                      </ReactSlick>
+                  </Layout>
+                  <Grid
+                      item
+                      xs={0}
+                      sm={4}
+                      md={3}
+                      xl={3}
+                      sx={{ display: { xs: 'none', sm: 'flex', md: 'flex' } }}
+                  >
+                      <RightView
+                          posts={data}
+                          index={index}
+                          height={sliderHeight}
+                          style={{ border: 'solid 1px black' }}
+                      />
+                  </Grid>
+              </Grid>
+          </Box>
+      )
+  )
 };
 
 const mapState = (state) => {

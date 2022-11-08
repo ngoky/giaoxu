@@ -14,21 +14,23 @@ import {
     Typography
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { connect, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../../../../storage/actions'
 import './index.scss'
+import { userSelector } from 'storage/selectors'
 
-const AccountView = (props) => {
+const AccountView = () => {
     const [anchorElUser, setAnchorElUser] = React.useState(null)
     const { t } = useTranslation()
-    const { auth } = props
     const [user = { email: '', password: '' }, setUser] = useState({
         email: 'ky.ngo@mailinator.com',
         password: '12345678@Ab'
     })
 
+    const auth = useSelector(userSelector.authSelector)
+
     const userMenu = t('menus.user-setting', { returnObjects: true }).filter(
-        (x) => x.authorize === (auth !== null)
+        (x) =>  x.authorize === (auth !== null)
     )
 
     const dispatch = useDispatch()
@@ -49,9 +51,7 @@ const AccountView = (props) => {
     const handleChange = (e) => {
         const userRef = { ...user }
         userRef[e.target.id] = e.target.value
-        console.log(userRef)
         setUser({ ...userRef })
-        console.log('change Event', user)
     }
 
     const submitLogin = () => {
@@ -145,12 +145,4 @@ const AccountView = (props) => {
     )
 }
 
-const mapState = (state) => {
-    return { userLogin: state.users.userLogin }
-}
-
-const actionCreators = {
-    login: userActions.login
-}
-
-export const Account = connect(mapState, actionCreators)(AccountView)
+export const Account = AccountView
